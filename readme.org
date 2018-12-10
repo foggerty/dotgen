@@ -1,0 +1,45 @@
+* Overview
+
+I really, really, /really/ hate Bash scripting, and fiddling with my dot
+files has always been a tad frustrating for me.  I also use both Linux
+and OSX, and while it'd be nice to have one set of Bash configuration
+files for both, it's not entirely possible without extra checks.  For
+example, if I want an alias for ~ls~ to always show coloured output,
+it's ~-G~ in OSX (i.e. the ancient FreeBSD userland that Apple still
+supplies us with) but ~--color~ in linux.
+
+The aim is to totally avoid ANY conditional logic or 'smarts' in the
+bash files, meaning that colour/platform detection etc happen
+here. This is mainly because a) I loathe bash scripting and b) I
+loathe bash scripting and c) to ensure that I get as close to identical
+environments when I move between machines.  I also want to be able to
+specify what an application needs, and have this script decide where
+the various bits of configuration go, because I can never bloody
+remember.
+
+* Dot files
+ - .profile :: used by many shells.  Put one-time setup stuff here
+      (environment variables, paths etc), things that will be used by
+      all applications.  Note that not all graphical shells will use
+      this file (because god hates you, probably).  At some point I'll
+      look up which ones and list them here.
+ - .bashrc :: bash-specific configuration (aliases, prompt,
+      user-specific environment variables etc.)
+ - .bash_profile ::  bash's version of .profile.  This should source
+      .profile and .bashrc (in that order!) and nothing else.
+ - .aliases :: collection of Bash aliases, referenced by .bashrc.
+
+* Todo
+ - [X] Sanity check.
+ - [X] First, just output the aliases file.
+ - [X] Move config array out into a separate file.
+ - [ ] Paths.
+ - [ ] Test functions.
+ - [ ] Write if test failed to stderr, but continue with rest of entries.
+ - [ ] Write all to temp files
+ - [ ] prompt to replace working files
+ - [ ] add command line params to:
+   - [ ] force overwriting without a prompt
+   - [ ] spit everything out to stdout, with headers for each file
+ - [ ] Colour detection needs to be more granular (i.e. 16/256/true)
+ - [ ] Function to run a version check?  Can assume semver, and use a simple regex to extract, and then compare to user-supplied version.  Otherwise user can use standard 'random bash command here' to indicate if the package should be installed or not.
