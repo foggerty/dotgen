@@ -181,8 +181,6 @@ puts "Does that all look ok?  Press 'y' to agree and overwrite your config."
 answer = gets.chomp
 
 if answer == 'y' || answer == 'Y'
-  puts "On your own head, be it.  What 'it' is, I'm not entirely sure, sorry."
-
   home = ENV["HOME"] + "/"
   
   File.open(home + ".bash_profile", "w") do |file|
@@ -190,20 +188,15 @@ if answer == 'y' || answer == 'Y'
   end
 
   File.open(home + ".aliases", "w") do |file|
-    @aliases.each do |a|
-      file.write(a + "\n")
-    end
+    file.write(@aliases.join("\n"))
   end
-
+  
   File.open(home + ".profile", "w") do |file|
-    @paths.each do | p|
-      file.write(p + "\n")
-    end
-    @manpaths.each do |p|
-      file.write(@manpaths + "\n")
-    end
+    file.write(@paths.join("\n"))
+    file.write("\n")
+    file.write(@manpaths.join("\n"))
   end
-
+  
   File.open(home + ".bashrc", "w") do |file|
     file.write(bashrc_header)
   end

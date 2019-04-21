@@ -37,6 +37,9 @@ bloody remember.
  - [X] Move config array out into a separate file.
  - [X] Paths.
  - [X] Get writing output.
+ - [ ] Path and Manpath should be grouped together.
+ - [ ] Add prompt support.
+ - [ ] Move all config (i.e. os specific options) into config, along with config helper functions.
  - [ ] Make less 'scripty' - i.e. move most things into functions.
  - [ ] Error on alias collisions.
  - [ ] Test functions.
