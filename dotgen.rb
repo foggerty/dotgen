@@ -1,5 +1,5 @@
 ################################################################################
-# bash_profile and headers.
+# Header/file constants.
 ################################################################################
 
 bash_profile = %q(
@@ -9,22 +9,24 @@ source .bashrc
 
 bashrc_header = %q(
 # Aliases
-source .aliases
+if [ -f ~/.aliases ]; then
+    source ~/.aliases
+fi
 )
 
 ################################################################################
 # Determine platform and system capabilities.
 ################################################################################
 
-@os = /linux/ =~ RUBY_PLATFORM ? :linux : :osx
-@color = (/color/ =~ ENV["TERM"]) != nil
+@os = /linux/i =~ RUBY_PLATFORM ? :linux : :osx
+@color = (/color/i =~ ENV["TERM"]) != nil
 
 ################################################################################
-# OS specific options
+# OS specific options.
 ################################################################################
 
 @ls_color = {:linux => "--color=auto",
-            :osx   => "-G"}
+             :osx   => "-G"}
 
 ################################################################################
 # Prompt - for your customisation pleasure.
@@ -38,7 +40,7 @@ source .aliases
 
 # Will look up the OS specific option in hash 'options'.  Note that if
 # this method is called, 'options' MUST contain a matching key.  If a
-# block is provided, and it returns anything other than true, will
+# block is provided that returns anything other than true, this will
 # return the empty string.
 
 def os_opt(options)
@@ -55,6 +57,14 @@ def os_opt(options)
   result
 end
 
+# Given a (valid) Bash command, will return true/false depending on
+# the exit value of the command.  i.e. Give this a shit command
+# and it'll most likely return false no matter what.
+
+def test(command)
+  # Erm, just return exit value?
+end
+
 ################################################################################
 # Load in the config.  This happens here, because it uses
 # interpolation of a few variables and functions defined in this file.
@@ -66,7 +76,9 @@ load './config.rb'
 # Work happens here.
 ################################################################################
 
-# First, sanity check the inputs!
+# First, sanity check the inputs!  If one config entry is borked,
+# treat them all with suspicion, distrust and, perhaps, even disdain?  Also,
+# I need to ease up on the commas.
 
 @config.each do |cfg|
   # Must be a hash
@@ -84,25 +96,115 @@ load './config.rb'
   if cfg[:paths] != nil && cfg[:paths].class != Array
     raise "Paths must be an array of string in entry #{cfg[:name]}."
   end
+
+  # Manpaths must be an array of strings
+  if cfg[:manpaths] != nil && cfg[:manpaths].class != Array
+    raise "Manpaths must be an array of string in entry #{cfg[:name]}."
+  end
+
 end
 
-# Next, output to temporary files.
+# Next, map the config to various collections.
 
-aliases = []
+@aliases = []
+@paths = []
+@manpaths = []
+@bashrc = []
 
-@config.each do |cfg|
+def addAliases(cfg, name)
   if cfg[:aliases]
 
-    aliases << "# #{cfg[:name]}"
+    @aliases << "# #{name}"
 
     cfg[:aliases].each do |a, c|
-      aliases << "#{a}='#{c}'"
+      @aliases << "#{a}='#{c}'"
     end
 
-    aliases << ""
+    @aliases << ""
   end
 end
 
-puts aliases
+def addPathsToCollection(name, collection, paths, prefix)
+    collection << "# #{name}"
+
+    paths.each do |p|
+      if p.include?("$#{prefix}")
+        collection << "export #{prefix}='#{p}'"
+      else
+        collection << "export $#{prefix}='$#{prefix}:#{p}'"
+      end
+    end
+
+    collection << ""
+end
+
+def addPaths(cfg, name)
+  if cfg[:paths]
+    addPathsToCollection(name, @paths, cfg[:paths], "PATH")
+  end
+end
+
+def addManPaths(cfg, name)
+  if cfg[:manpaths]
+    addPathsToCollection(name, @manpaths, cfg[:manpaths], "MANPATH")
+  end
+end
+
+@config.each do |cfg|
+  next if cfg[:enabled] == false
+
+  name = cfg[:name]
+
+  addAliases(cfg, name)
+  addPaths(cfg, name)
+  addManPaths(cfg, name)
+end
+
+puts ".aliases ========================================="
+puts @aliases
+
+puts "\n.bash_profile =================================="
+puts bash_profile
+
+puts "\n.profile ======================================="
+puts @paths
+puts @manpaths
+
+puts "\n.bashrc ========================================"
+puts bashrc_header
 
 # Finally, ask user if they want to overwrite their current dot files.
+
+puts "\n\n"
+puts "Does that all look ok?  Press 'y' to agree and overwrite your config."
+
+answer = gets.chomp
+
+if answer == 'y' || answer == 'Y'
+  puts "On your own head, be it.  What 'it' is, I'm not entirely sure, sorry."
+
+  home = ENV["HOME"] + "/"
+  
+  File.open(home + ".bash_profile", "w") do |file|
+    file.write(bash_profile)
+  end
+
+  File.open(home + ".aliases", "w") do |file|
+    @aliases.each do |a|
+      file.write(a + "\n")
+    end
+  end
+
+  File.open(home + ".profile", "w") do |file|
+    @paths.each do | p|
+      file.write(p + "\n")
+    end
+    @manpaths.each do |p|
+      file.write(@manpaths + "\n")
+    end
+  end
+
+  File.open(home + ".bashrc", "w") do |file|
+    file.write(bashrc_header)
+  end
+end
