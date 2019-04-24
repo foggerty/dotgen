@@ -117,7 +117,7 @@ def addAliases(cfg, name)
     @aliases << "# #{name}"
 
     cfg[:aliases].each do |a, c|
-      @aliases << "#{a}='#{c}'"
+      @aliases << "alias #{a}='#{c}'"
     end
 
     @aliases << ""
@@ -129,9 +129,9 @@ def addPathsToCollection(name, collection, paths, prefix)
 
     paths.each do |p|
       if p.include?("$#{prefix}")
-        collection << "export #{prefix}='#{p}'"
+        collection << "export #{prefix}=\"#{p}\""
       else
-        collection << "export $#{prefix}='$#{prefix}:#{p}'"
+        collection << "export #{prefix}=\"$#{prefix}:#{p}\""
       end
     end
 
