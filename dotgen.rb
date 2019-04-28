@@ -1,20 +1,4 @@
 ################################################################################
-# Header/file constants.
-################################################################################
-
-bash_profile = %q(
-source .profile
-source .bashrc
-)
-
-bashrc_header = %q(
-# Aliases
-if [ -f ~/.aliases ]; then
-    source ~/.aliases
-fi
-)
-
-################################################################################
 # Determine platform and system capabilities.
 ################################################################################
 
@@ -25,8 +9,8 @@ fi
 # OS specific options.
 ################################################################################
 
-@ls_color = {:linux => "--color=auto",
-             :osx   => "-G"}
+@ls_color = {:osx    => "--color=auto",
+             :linux  => "-G"}
 
 ################################################################################
 # Prompt - for your customisation pleasure.
@@ -107,8 +91,8 @@ end
 # Next, map the config to various collections.
 
 @aliases = []
-@paths = []
-@manpaths = []
+@paths = ["# Updates to path"]
+@manpaths = ["# Update to manpath"]
 @bashrc = []
 
 def addAliases(cfg, name)
@@ -160,18 +144,24 @@ end
   addManPaths(cfg, name)
 end
 
+@bashrc << "# Load aliases"
+@bashrc << @bashrc_header
+@bashrc << "\n"
+@bashrc << "# Prompt"
+@bashrc << "PS1=\"#{@prompt}\""
+
 puts ".aliases ========================================="
 puts @aliases
 
 puts "\n.bash_profile =================================="
-puts bash_profile
+puts @bash_profile
 
 puts "\n.profile ======================================="
 puts @paths
 puts @manpaths
 
 puts "\n.bashrc ========================================"
-puts bashrc_header
+puts @bashrc
 
 # Finally, ask user if they want to overwrite their current dot files.
 
@@ -184,7 +174,7 @@ if answer == 'y' || answer == 'Y'
   home = ENV["HOME"] + "/"
   
   File.open(home + ".bash_profile", "w") do |file|
-    file.write(bash_profile)
+    file.write(@bash_profile)
   end
 
   File.open(home + ".aliases", "w") do |file|
@@ -198,6 +188,6 @@ if answer == 'y' || answer == 'Y'
   end
   
   File.open(home + ".bashrc", "w") do |file|
-    file.write(bashrc_header)
+    file.write(@bashrc.join("\n"))
   end
 end

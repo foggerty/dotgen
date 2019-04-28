@@ -27,6 +27,35 @@
 #
 # If you want $PATH to appear at the end (or anywhere else), just include it
 # in the string, and $PATH will only appear where you specify it.
+# Obviously, if you do this multiple time, you'll need to order applications
+# in the configuration accordingly.
+# 
+################################################################################
+
+################################################################################
+# Header/file constants.
+################################################################################
+
+@bash_profile = %q(
+source ~/.profile
+source ~/.bashrc
+)
+
+@bashrc_header = %q(
+# Aliases
+if [ -f ~/.aliases ]; then
+    source ~/.aliases
+fi
+)
+
+################################################################################
+# Prompt.
+################################################################################
+
+@prompt = '\u@\h - \W > '
+
+################################################################################
+# Application configuration.
 ################################################################################
 
 @config =

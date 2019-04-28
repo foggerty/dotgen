@@ -6,7 +6,8 @@ and OSX, and while it'd be nice to have one set of Bash configuration
 files for both, it's not entirely possible without extra checks.  For
 example, if I want an alias for ~ls~ to always show coloured output,
 it's ~-G~ in OSX (i.e. the ancient FreeBSD userland that Apple still
-supplies us with) but ~--color~ in linux.
+supplies us with) but ~--color~ in linux.  Actually, it's the other way
+around, and I only just noticed that after several months.  SEE?!?
 
 The aim is to totally avoid ANY conditional logic or 'smarts' in the
 bash files, meaning that colour/platform detection etc happen
