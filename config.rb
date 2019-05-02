@@ -5,6 +5,7 @@
 #
 # Each config entry can contain:
 #   :enabled - false, otherwise assumed to be true (can omit).
+#   :os - either :linux or :osx if this only applies to one OS.
 #   :description - comments.
 #   :test - simple command to determine if required app is actually installed.
 #   :version - semver version; must be exact match.
@@ -72,59 +73,61 @@ fi
 # Application configuration.
 ################################################################################
 
-@config =
-[
- {
-  :name => "Common aliases",
-  :description => "Avoid common foot-bullets, and generally make the shell nicer.",
-  :aliases =>
+@config = [
+  {
+    :name => "Common aliases",
+    :description => "Avoid common foot-bullets, and generally make the shell nicer.",
+    :aliases =>
     { 
-     :rm => "rm -i",
-     :cp => "cp -i",
-     :mv => "mv -i",
-     :ls => "ls -h #{os_opt(@ls_color){@color}}"
+      :rm => "rm -i",
+      :cp => "cp -i",
+      :mv => "mv -i",
+      :ls => "ls -h #{os_opt(@ls_color){@color}}"
     }
- },
+  },
 
- {
-   :name => "Core utils.",
-   :description => "Make sure GNU utils appear on the path before OSX ones.",
-   :paths => ["/usr/local/opt/coreutils/libexec/gnubin:$PATH"],
-   :manpaths => ["/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"]
- },
+  {
+    :name => "Core utils.",
+    :os => :osx,
+    :description => "Make sure GNU utils appear on the path before OSX ones.",
+    :paths => ["/usr/local/opt/coreutils/libexec/gnubin:$PATH"],
+    :manpaths => ["/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"]
+  },
 
- {
-  :name => "Most",
-  :description => "Make man pages prettier.",
-  :test => "which most",
-  :aliases =>
+  {
+    :name => "Most",
+    :description => "Make man pages prettier.",
+    :test => "which most",
+    :aliases =>
     {
-     :man => "man -P most"
+      :man => "man -P most"
     }
- },
+  },
 
- {
-  :name => "Go",
-  :description => "Powered by gophers!",
-  :paths => ["/usr/local/go/bin",
-             "~/go/bin"]
- },
+  {
+    :name => "Go",
+    :enabled => false,
+    :description => "Powered by gophers!",
+    :paths => ["/usr/local/go/bin",
+               "~/go/bin"]
+  },
 
- {
-  :name => "Git",
-  :description => "Collection of aliases for git.",
-  :aliases =>
+  {
+    :name => "Git",
+    :description => "Collection of aliases for git.",
+    :aliases =>
     {
-     :gts => "git status -s -b --column",
-     :gtc => "git checkout",
-     :gtl => "git log --graph --decorate=full",
-     :gtb => "git branch -vva"
+      :gts => "git status -s -b --column",
+      :gtc => "git checkout",
+      :gtl => "git log --graph --decorate=full",
+      :gtb => "git branch -vva"
     }
- },
+  },
 
- {
-   :name => "Flutter",
-   :description => "Mobile development for great victory.",
-   :paths => ["$HOME/Development/flutter/bin"]
- }
+  {
+    :name => "Flutter",
+    :description => "Mobile development for great victory.",
+    :paths => ["$HOME/Development/flutter/bin"]
+  }
 ]
+

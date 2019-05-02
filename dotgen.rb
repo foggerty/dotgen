@@ -1,11 +1,32 @@
 load './dotGenLib.rb'
 load './config.rb'
 
-# First, sanity check the inputs!  If one config entry is borked,
-# treat them all with suspicion, distrust and, perhaps, even disdain?  Also,
-# I need to ease up on the commas.
+################################################################################
+## Utility functions
+################################################################################
 
-@config.each do |cfg|
+def enabled(cfg)
+  raise "Expected a hash" if cfg.class != Hash
+
+  enabled = cfg[:enabled] == nil || cfg[:enabled] == true
+  right_os = cfg[:os] == nil || cfg[:os] == @os
+
+  enabled && right_os
+end
+
+################################################################################
+## Setup and sanity check
+################################################################################
+
+@entries = @config.select() {|cfg| enabled(cfg)}
+
+if @entries.length == 0
+  puts "Either everything is disabled, or nothing applies to this OS."
+  exit(0)
+end
+
+@entries.each do |cfg|
+    
   # Must be a hash
   raise "Each entry in config must be a hash." if cfg.class != Hash
 
@@ -29,11 +50,13 @@ load './config.rb'
 
 end
 
-# Next, map the config to various collections.
+################################################################################
+## Put it all together
+################################################################################
 
 @aliases = []
-@paths = ["# Updates to path"]
-@manpaths = ["# Update to manpath"]
+@paths = []
+@manpaths = []
 @bashrc = []
 
 def addAliases(cfg, name)
@@ -75,9 +98,7 @@ def addManPaths(cfg, name)
   end
 end
 
-@config.each do |cfg|
-  next if cfg[:enabled] == false
-
+@entries.each do |cfg|
   name = cfg[:name]
 
   addAliases(cfg, name)
@@ -85,7 +106,6 @@ end
   addManPaths(cfg, name)
 end
 
-@bashrc << "# Load aliases"
 @bashrc << @bashrc_header
 @bashrc << "\n"
 @bashrc << "# Prompt"
