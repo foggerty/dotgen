@@ -2,23 +2,10 @@ load './dotGenLib.rb'
 load './config.rb'
 
 ################################################################################
-## Utility functions
-################################################################################
-
-def enabled(cfg)
-  raise "Expected a hash" if cfg.class != Hash
-
-  enabled = cfg[:enabled] == nil || cfg[:enabled] == true
-  right_os = cfg[:os] == nil || cfg[:os] == @os
-
-  enabled && right_os
-end
-
-################################################################################
 ## Setup and sanity check
 ################################################################################
 
-@entries = @config.select() {|cfg| enabled(cfg)}
+@entries = @config.select() {|cfg| cfg_enabled(cfg)}
 
 if @entries.length == 0
   puts "Either everything is disabled, or nothing applies to this OS."

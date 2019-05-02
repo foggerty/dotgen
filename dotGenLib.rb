@@ -29,3 +29,13 @@ def test(command)
   # Erm, just return exit value?
 end
 
+# Determine if a config entry is enabled, and for this OS
+
+def cfg_enabled(cfg)
+  raise "Expected a hash" if cfg.class != Hash
+
+  enabled = cfg[:enabled] == nil || cfg[:enabled] == true
+  right_os = cfg[:os] == nil || cfg[:os] == @os
+
+  enabled && right_os
+end
