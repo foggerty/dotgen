@@ -120,6 +120,7 @@ fi
       :gts => "git status -s -b --column",
       :gtc => "git checkout",
       :gtl => "git log --graph --decorate=full",
+      :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
       :gtb => "git branch -vva"
     }
   },
