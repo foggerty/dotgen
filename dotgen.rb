@@ -93,8 +93,8 @@ end
   addManPaths(cfg, name)
 end
 
-@bashrc << @bashrc_header
-@bashrc << "\n"
+@bashrc << @bash_sanity << "\n"
+@bashrc << @bashrc_aliases << "\n"
 @bashrc << "# Prompt"
 @bashrc << "PS1=\"#{@prompt}\""
 
@@ -114,7 +114,7 @@ puts @bashrc
 # Finally, ask user if they want to overwrite their current dot files.
 
 puts "\n\n"
-puts "Does that all look ok?  Press 'y' to agree and overwrite your config."
+puts "Does that all look ok?  Enter 'y' to agree and overwrite your config."
 
 answer = gets.chomp
 

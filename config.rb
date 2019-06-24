@@ -42,11 +42,21 @@ source ~/.profile
 source ~/.bashrc
 )
 
-@bashrc_header = %q(
+@bashrc_aliases = %q(
 # Aliases
 if [ -f ~/.aliases ]; then
     source ~/.aliases
 fi
+)
+
+# Setup bash options
+@bash_sanity = %q(
+# Bash configuration
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+shopt -s histappend
+shopt -s checkwinsize
 )
 
 ################################################################################
