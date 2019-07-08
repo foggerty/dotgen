@@ -21,21 +21,72 @@ def os_opt(options)
   result
 end
 
-# Given a (valid) Bash command, will return true/false depending on
-# the exit value of the command.  i.e. Give this a shit command
-# and it'll most likely return false no matter what.
+def runTest(cfg)
+  result =
+    cfg[:test] == nil ||
+    system(cfg[:test], :err => File::NULL )
 
-def test(command)
-  # Erm, just return exit value?
+  if(!result)
+    puts "Config entry #{cfg[:name]} failed test."
+  end
+  
+  result;
 end
 
-# Determine if a config entry is enabled, and for this OS
+def isConfig(cfg)
+  if cfg.class == Hash && cfg[:name].class == String
 
-def cfg_enabled(cfg)
-  raise "Expected a hash" if cfg.class != Hash
+    enabled = cfg[:enabled] == nil || cfg[:enabled] == true
+    right_os = cfg[:os] == nil || cfg[:os] == @os
+    
+    return enabled && right_os
+  else
+    puts "Each config entry must be a hash, with a :name key (string)."
+  end
 
-  enabled = cfg[:enabled] == nil || cfg[:enabled] == true
-  right_os = cfg[:os] == nil || cfg[:os] == @os
+  return false
+end
 
-  enabled && right_os
+def isCorrectType(cfg, entryName, expectedType)
+  return true if cfg[entryName] == nil
+
+  if cfg[entryName].class != expectedType
+    puts ":#{entryName} must be a #{expectedType} in entry '#{cfg[:name]}'"
+    return false
+  end
+  
+  return true
+end
+
+################################################################################
+## Extract/copy 'stuff'
+################################################################################
+
+def addPathsToCollection(cfg, key, collection, prefix)
+  return if cfg[key] == nil
+
+  collection << "# #{cfg[:name]}"
+
+  cfg[key].each do |p|
+    if p.include?("$#{prefix}")
+      collection << "export #{prefix}=\"#{p}\""
+    else
+      collection << "export #{prefix}=\"$#{prefix}:#{p}\""
+    end
+  end
+
+  collection << "\n"
+end
+
+def addAliasesToollection(cfg, result)
+  if cfg[:aliases]
+
+    result << "# #{cfg[:name]}"
+
+    cfg[:aliases].each do |a, c|
+      result << "alias #{a}='#{c}'"
+    end
+
+    result << "\n"
+  end
 end
