@@ -41,15 +41,15 @@ bloody remember.
  - [X] Add prompt support.
  - [X] Move all config (i.e. os specific options) into config, along with config helper functions.
  - [X] prompt to replace working files
+ - [X] Test functions.
+ - [X] Make less 'scripty' - i.e. move most things into functions.
  - [ ] Error on alias collisions.
  - [ ] Path and Manpath should be grouped together (by app).
- - [ ] Make less 'scripty' - i.e. move most things into functions.
- - [ ] Test functions.
  - [ ] Write if test failed to stderr, but continue with rest of entries.
  - [ ] prompt if want to replace working files even if some failed
  - [ ] add command line params to:
    - [ ] force overwriting without a prompt (should /only/ work if zero errors/warnings)
    - [ ] spit everything out to stdout, with headers for each file
    - [ ] write to temporary files
- - [ ] Colour detection needs to be more granular (i.e. 16/256/true)
+ - [ ] Colour detection needs to be more granular (i.e. 16/256/true, look into terminfo)
  - [ ] Function to run a version check?  Can assume semver, and use a simple regex to extract, and then compare to user-supplied version.  Otherwise user can use standard 'random bash command here' to indicate if the package should be installed or not.

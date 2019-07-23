@@ -9,7 +9,7 @@
 
 def os_opt(options)
   if block_given? & !yield
-    retun ""
+    return ""
   end
   
   result = options[@os]
@@ -24,10 +24,10 @@ end
 def runTest(cfg)
   result =
     cfg[:test] == nil ||
-    system(cfg[:test], :err => File::NULL )
+    system(cfg[:test], :err => File::NULL, :out => File::NULL )
 
   if(!result)
-    puts "Config entry #{cfg[:name]} failed test."
+    puts "Config for '#{cfg[:name]}' failed test."
   end
   
   result;
@@ -62,31 +62,26 @@ end
 ## Extract/copy 'stuff'
 ################################################################################
 
-def addPathsToCollection(cfg, key, collection, prefix)
-  return if cfg[key] == nil
-
-  collection << "# #{cfg[:name]}"
+def extractPaths(cfg, key, prefix)
+  result = ["# #{cfg[:name]}"]
 
   cfg[key].each do |p|
     if p.include?("$#{prefix}")
-      collection << "export #{prefix}=\"#{p}\""
+      result << "export #{prefix}=\"#{p}\""
     else
-      collection << "export #{prefix}=\"$#{prefix}:#{p}\""
+      result << "export #{prefix}=\"$#{prefix}:#{p}\""
     end
   end
-
-  collection << "\n"
+  
+  result << "\n"
 end
 
-def addAliasesToollection(cfg, result)
-  if cfg[:aliases]
-
-    result << "# #{cfg[:name]}"
-
-    cfg[:aliases].each do |a, c|
-      result << "alias #{a}='#{c}'"
-    end
-
-    result << "\n"
+def extractAliases(cfg)
+  result = ["# #{cfg[:name]}"]
+  
+  cfg[:aliases].each do |a, c|
+    result << "alias #{a}='#{c}'"
   end
+
+  result << "\n"
 end

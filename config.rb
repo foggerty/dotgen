@@ -37,21 +37,18 @@
 # Header/file constants.
 ################################################################################
 
-@bash_profile = %q(
-source ~/.profile
+@bash_profile = %q(source ~/.profile
 source ~/.bashrc
 )
 
-@bashrc_aliases = %q(
-# Aliases
+@bashrc_aliases = %q(# Aliases
 if [ -f ~/.aliases ]; then
     source ~/.aliases
 fi
 )
 
 # Setup bash options
-@bash_sanity = %q(
-# Bash configuration
+@bash_sanity = %q(# Bash configuration
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -124,6 +121,7 @@ shopt -s checkwinsize
 
   {
     :name => "Git",
+    :test => "which git",
     :description => "Collection of aliases for git.",
     :aliases =>
     {
@@ -137,8 +135,15 @@ shopt -s checkwinsize
 
   {
     :name => "Flutter",
+    :enabled => false,
     :description => "Mobile development for great victory.",
     :paths => ["$HOME/Development/flutter/bin"]
+  },
+  {
+    :name => "Home bin",
+    :description => "Add user's ~/bin directory to path.",
+    :paths => ["~/bin"],
+    :test => "[ -d \"$HOME/bin\" ]"
   }
 ]
 

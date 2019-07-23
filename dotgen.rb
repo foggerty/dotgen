@@ -10,9 +10,6 @@ load './config.rb'
 ## Setup and sanity check
 ################################################################################
 
-# Give me a functional construct with side-effects, and by gods I'll us it to
-# the fullest.
-
 @config.filter! do |cfg|
   
   valid =
@@ -30,20 +27,25 @@ if @config.length == 0
   exit 0
 end
 
-@config.each do |cfg|
-  puts "Processing #{cfg[:name]}"
-  
-  addAliasesToollection(cfg, @aliases)
-  addPathsToCollection(cfg, :paths, @paths, "PATH")
-  addPathsToCollection(cfg, :manpaths, @manpaths, "MANPATH")
-end
+@aliases = @config.
+             filter {|cfg| cfg[:aliases] != nil}.
+             map {|cfg| extractAliases(cfg)}.
+             flatten
 
-@bashrc << @bash_sanity << "\n"
-@bashrc << @bashrc_aliases << "\n"
+@paths = @config.
+           filter {|cfg| cfg[:paths] != nil}.
+           map {|cfg| extractPaths(cfg, :paths, "PATH")}.
+           flatten
+
+@manpaths = @config.
+              filter {|cfg| cfg[:manpaths] != nil}.
+              map {|cfg| extractPaths(cfg, :manpaths, "MANPATH")}.
+              flatten
+
+@bashrc << @bash_sanity
+@bashrc << @bashrc_aliases
 @bashrc << "# Prompt"
-@bashrc << "PS1=\"#{@prompt}\""
-
-puts "\n\n"
+@bashrc << "PS1=\"#{@prompt}\"\n"
 
 # Doom, death and destruction - write our finished result.
 
