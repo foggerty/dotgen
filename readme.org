@@ -43,10 +43,9 @@ bloody remember.
  - [X] prompt to replace working files
  - [X] Test functions.
  - [X] Make less 'scripty' - i.e. move most things into functions.
+ - [X] Write if test failed to stderr, but continue with rest of entries.
  - [ ] Error on alias collisions.
  - [ ] Path and Manpath should be grouped together (by app).
- - [ ] Write if test failed to stderr, but continue with rest of entries.
- - [ ] prompt if want to replace working files even if some failed
  - [ ] add command line params to:
    - [ ] force overwriting without a prompt (should /only/ work if zero errors/warnings)
    - [ ] spit everything out to stdout, with headers for each file
