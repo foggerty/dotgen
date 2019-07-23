@@ -2,6 +2,11 @@
 # Helper functions.
 ################################################################################
 
+def bail(msg)
+  SSTDERR.puts(msg)
+  exit 1
+end
+
 # Will look up the OS specific option in hash 'options'.  Note that if
 # this method is called, 'options' MUST contain a matching key.  If a
 # block is provided that returns anything other than true, this will
@@ -15,7 +20,7 @@ def os_opt(options)
   result = options[@os]
 
   if result == nil
-    raise 'os_opt - options does not contain a recognised OS symbol.' 
+    bail 'os_opt - options does not contain a recognised OS symbol.' 
   end
   
   result
@@ -27,7 +32,7 @@ def runTest(cfg)
     system(cfg[:test], :err => File::NULL, :out => File::NULL )
 
   if(!result)
-    puts "Config for '#{cfg[:name]}' failed test."
+    STDERR.puts "Config for '#{cfg[:name]}' failed test."
   end
   
   result;
@@ -40,10 +45,10 @@ def isConfig(cfg)
     right_os = cfg[:os] == nil || cfg[:os] == @os
     
     return enabled && right_os
-  else
-    puts "Each config entry must be a hash, with a :name key (string)."
   end
 
+  STDERR.puts "Each config entry must be a hash, with a :name key (string)."
+  
   return false
 end
 
@@ -51,7 +56,7 @@ def isCorrectType(cfg, entryName, expectedType)
   return true if cfg[entryName] == nil
 
   if cfg[entryName].class != expectedType
-    puts ":#{entryName} must be a #{expectedType} in entry '#{cfg[:name]}'"
+    STDERR.puts ":#{entryName} must be a #{expectedType} in entry '#{cfg[:name]}'"
     return false
   end
   
@@ -84,4 +89,32 @@ def extractAliases(cfg)
   end
 
   result << "\n"
+end
+
+################################################################################
+## Output 'stuff
+################################################################################
+
+# Expects a block that returns an array of string.
+def writeConfig(name)
+  if !block_given?
+    puts "'writeConfig() requires a block."
+    exit 1
+  end
+
+  content = yield
+
+  if content.class != String && content.class != Array
+    bail "'wrieConfig(#{name})' expects to receive a string or array."
+  end
+
+  if content.class == Array
+    content = content.join("\n")
+  end
+  
+  home = ENV["HOME"] + "/"
+  
+  File.open(home + name, "w") do |file|
+    file.write(content)
+  end
 end
