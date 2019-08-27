@@ -132,18 +132,18 @@ shopt -s checkwinsize
       :gtb => "git branch -vva"
     }
   },
-
+  
   {
     :name => "Flutter",
     :enabled => false,
     :description => "Mobile development for great victory.",
     :paths => ["$HOME/Development/flutter/bin"]
   },
+  
   {
-    :name => "Home bin",
+    :name => "Home bin directory",
     :description => "Add user's ~/bin directory to path.",
     :paths => ["~/bin"],
     :test => "[ -d \"$HOME/bin\" ]"
   }
 ]
-

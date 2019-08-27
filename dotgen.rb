@@ -12,11 +12,12 @@ load './config.rb'
 
 @config.filter! do |cfg|
   isConfig(cfg) &&
-  isCorrectType(cfg, :aliases, Hash) &&
-  isCorrectType(cfg, :paths, Array) &&
-  isCorrectType(cfg, :manpaths, Array) &&
-  isCorrectType(cfg, :test, String) &&
-  runTest(cfg)
+    isCorrectType(cfg, :aliases, Hash) &&
+    isCorrectType(cfg, :paths, Array) &&
+    isCorrectType(cfg, :manpaths, Array) &&
+    isCorrectType(cfg, :test, String) &&
+    isCorrectType(cfg, :vars, Hash) &&
+    runTest(cfg)
 end
 
 if @config.length == 0
@@ -28,19 +29,24 @@ end
 ################################################################################
 
 @aliases = @config.
-             filter {|cfg| cfg[:aliases] != nil}.
-             map {|cfg| extractAliases(cfg)}.
-             flatten
+  filter {|cfg| cfg[:aliases] != nil}.
+  map {|cfg| extractAliases(cfg)}.
+  flatten
 
 @paths = @config.
-           filter {|cfg| cfg[:paths] != nil}.
-           map {|cfg| extractPaths(cfg, :paths, "PATH")}.
-           flatten
+  filter {|cfg| cfg[:paths] != nil}.
+  map {|cfg| extractPaths(cfg, :paths, "PATH")}.
+  flatten
 
 @manpaths = @config.
-              filter {|cfg| cfg[:manpaths] != nil}.
-              map {|cfg| extractPaths(cfg, :manpaths, "MANPATH")}.
-              flatten
+  filter {|cfg| cfg[:manpaths] != nil}.
+  map {|cfg| extractPaths(cfg, :manpaths, "MANPATH")}.
+  flatten
+
+@vars = @config.
+  filter {|cfg| cfg[:vars] != nil}.
+  map {|cfg| extractVars(cfg)}.
+  flatten
 
 @bashrc << @bash_sanity
 @bashrc << @bashrc_aliases
@@ -59,5 +65,5 @@ if answer == 'y' || answer == 'Y'
   writeConfig(".bash_profile") { @bash_profile }
   writeConfig(".aliases") { @aliases }
   writeConfig(".bashrc") { @bashrc }
-  writeConfig(".profile") { @paths + ["\n"] + @manpaths }
+  writeConfig(".profile") { [@paths, @manpaths, @vars] }
 end

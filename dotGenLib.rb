@@ -77,19 +77,27 @@ def extractPaths(cfg, key, prefix)
       result << "export #{prefix}=\"$#{prefix}:#{p}\""
     end
   end
+
+  result
+end
+
+def extractMap(cfg, key, name)
+  result = ["# #{cfg[:name]}"]
   
-  result << "\n"
+  cfg[key].each do |a, c|
+    result << "#{name} #{a}='#{c}'"
+  end
+
+  result
 end
 
 def extractAliases(cfg)
-  result = ["# #{cfg[:name]}"]
-  
-  cfg[:aliases].each do |a, c|
-    result << "alias #{a}='#{c}'"
-  end
-
-  result << "\n"
+  extractMap(cfg, :aliases, "alias")
 end
+
+def extractVars(cfg)
+  extractMap(cfg, :vars, "export")
+end  
 
 ################################################################################
 ## Output 'stuff
@@ -103,7 +111,7 @@ def writeConfig(name)
   end
 
   content = yield
-
+  
   if content.class != String && content.class != Array
     bail "'wrieConfig(#{name})' expects to receive a string or array."
   end
@@ -115,6 +123,6 @@ def writeConfig(name)
   home = ENV["HOME"] + "/"
   
   File.open(home + name, "w") do |file|
-    file.write(content)
+    file.write(content + "\n")
   end
 end
