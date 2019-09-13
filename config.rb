@@ -113,7 +113,7 @@ shopt -s checkwinsize
 
   {
     :name => "Go",
-    :enabled => false,
+    :enabled => true,
     :description => "Powered by gophers!",
     :paths => ["/usr/local/go/bin",
                "~/go/bin"]
