@@ -16,13 +16,13 @@ def os_opt(options)
   if block_given? & !yield
     return ""
   end
-  
+
   result = options[@os]
 
   if result == nil
-    bail 'os_opt - options does not contain a recognised OS symbol.' 
+    bail 'os_opt - options does not contain a recognised OS symbol.'
   end
-  
+
   result
 end
 
@@ -34,7 +34,7 @@ def runTest(cfg)
   if(!result)
     STDERR.puts "Config for '#{cfg[:name]}' failed test."
   end
-  
+
   result;
 end
 
@@ -43,12 +43,12 @@ def isConfig(cfg)
 
     enabled = cfg[:enabled] == nil || cfg[:enabled] == true
     right_os = cfg[:os] == nil || cfg[:os] == @os
-    
+
     return enabled && right_os
   end
 
   STDERR.puts "Each config entry must be a hash, with a :name key (string)."
-  
+
   return false
 end
 
@@ -59,7 +59,7 @@ def isCorrectType(cfg, entryName, expectedType)
     STDERR.puts ":#{entryName} must be a #{expectedType} in entry '#{cfg[:name]}'"
     return false
   end
-  
+
   return true
 end
 
@@ -78,17 +78,17 @@ def extractPaths(cfg, key, prefix)
     end
   end
 
-  result
+  result << "\n"
 end
 
 def extractMap(cfg, key, name)
   result = ["# #{cfg[:name]}"]
-  
+
   cfg[key].each do |a, c|
     result << "#{name} #{a}='#{c}'"
   end
 
-  result
+  result << "\n"
 end
 
 def extractAliases(cfg)
@@ -97,7 +97,7 @@ end
 
 def extractVars(cfg)
   extractMap(cfg, :vars, "export")
-end  
+end
 
 ################################################################################
 ## Output 'stuff
@@ -111,17 +111,17 @@ def writeConfig(name)
   end
 
   content = yield
-  
+
   if content.class != String && content.class != Array
-    bail "'wrieConfig(#{name})' expects to receive a string or array."
+    bail "'writeConfig(#{name})' expects to receive a string or array."
   end
 
   if content.class == Array
     content = content.join("\n")
   end
-  
+
   home = ENV["HOME"] + "/"
-  
+
   File.open(home + name, "w") do |file|
     file.write(content + "\n")
   end

@@ -30,7 +30,7 @@
 # in the string, and $PATH will only appear where you specify it.
 # Obviously, if you do this multiple time, you'll need to order applications
 # in the configuration accordingly.
-# 
+#
 ################################################################################
 
 ################################################################################
@@ -85,7 +85,7 @@ shopt -s checkwinsize
     :name => "Common aliases",
     :description => "Avoid common foot-bullets, and generally make the shell nicer.",
     :aliases =>
-    { 
+    {
       :rm => "rm -i",
       :cp => "cp -i",
       :mv => "mv -i",
@@ -132,18 +132,27 @@ shopt -s checkwinsize
       :gtb => "git branch -vva"
     }
   },
-  
+
   {
     :name => "Flutter",
     :enabled => false,
     :description => "Mobile development for great victory.",
     :paths => ["$HOME/Development/flutter/bin"]
   },
-  
+
   {
     :name => "Home bin directory",
     :description => "Add user's ~/bin directory to path.",
     :paths => ["~/bin"],
     :test => "[ -d \"$HOME/bin\" ]"
+  },
+  {
+    :name => "cmatrix",
+    :test => "which cmatrix",
+    :description => "Defaults for cmatrix.",
+    :aliases =>
+    {
+      :cmatrix => "cmatrix -b -u 8 -C blue"
+    }
   }
 ]

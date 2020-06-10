@@ -1,4 +1,4 @@
-load './dotGenLib.rb'
+load './dotgenlib.rb'
 load './config.rb'
 
 @aliases = []
