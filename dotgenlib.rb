@@ -13,7 +13,7 @@ end
 # return the empty string.
 
 def os_opt(options)
-  if block_given? & !yield
+  if block_given? && !yield
     return ""
   end
 

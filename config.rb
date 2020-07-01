@@ -61,7 +61,6 @@ shopt -s checkwinsize
 ################################################################################
 
 @os = /linux/i =~ RUBY_PLATFORM ? :linux : :osx
-@color = (/color/i =~ ENV["TERM"]) != nil
 
 ################################################################################
 # OS specific options.
@@ -89,7 +88,7 @@ shopt -s checkwinsize
       :rm => "rm -i",
       :cp => "cp -i",
       :mv => "mv -i",
-      :ls => "ls -h #{os_opt(@ls_color){@color}}"
+      :ls => "ls -h #{os_opt(@ls_color)}"
     }
   },
 
