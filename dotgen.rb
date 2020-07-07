@@ -10,47 +10,30 @@ load './config.rb'
 ## Setup and sanity check.
 ################################################################################
 
+initial_config_length = @config.length
+
 @config.filter! do |cfg|
-  isConfig(cfg) &&
-    isCorrectType(cfg, :aliases, Hash) &&
-    isCorrectType(cfg, :paths, Array) &&
-    isCorrectType(cfg, :manpaths, Array) &&
-    isCorrectType(cfg, :test, String) &&
-    isCorrectType(cfg, :vars, Hash) &&
-    runTest(cfg)
+  valid_config?(cfg)
 end
 
-if @config.length == 0
-  bail "Either all config is disabled, or none of it applies to this OS."
+if @config.length.zero?
+  bail 'Either all config is disabled/broken, or none of it applies to this OS.'
 end
+
+puts "Applying #{@config.length} of #{initial_config_length} entries..."
 
 ################################################################################
 ## Extract various configuration 'stuff'.
 ################################################################################
 
-@aliases = @config.
-  filter {|cfg| cfg[:aliases] != nil}.
-  map {|cfg| extractAliases(cfg)}.
-  flatten
-
-@paths = @config.
-  filter {|cfg| cfg[:paths] != nil}.
-  map {|cfg| extractPaths(cfg, :paths, "PATH")}.
-  flatten
-
-@manpaths = @config.
-  filter {|cfg| cfg[:manpaths] != nil}.
-  map {|cfg| extractPaths(cfg, :manpaths, "MANPATH")}.
-  flatten
-
-@vars = @config.
-  filter {|cfg| cfg[:vars] != nil}.
-  map {|cfg| extractVars(cfg)}.
-  flatten
+@aliases  = generate(:aliases)  { |cfg| extract_aliases(cfg) }
+@paths    = generate(:paths)    { |cfg| extract_paths(cfg, :paths, 'PATH') }
+@manpaths = generate(:manpaths) { |cfg| extract_paths(cfg, :manpaths, 'MANPATH') }
+@vars     = generate(:vars)     { |cfg| extract_vars(cfg) }
 
 @bashrc << @bash_sanity
-@bashrc << @bashrc_aliases
-@bashrc << "# Prompt"
+@bashrc << @bashrc_load_aliases
+@bashrc << '# Prompt'
 @bashrc << "PS1=\"#{@prompt}\"\n"
 
 ################################################################################
@@ -61,9 +44,9 @@ puts "Enter 'y' to agree to 'stuff' and overwrite your Bash config."
 
 answer = gets.chomp
 
-if answer == 'y' || answer == 'Y'
-  writeConfig(".bash_profile") { @bash_profile }
-  writeConfig(".aliases") { @aliases }
-  writeConfig(".bashrc") { @bashrc }
-  writeConfig(".profile") { [@paths, @manpaths, @vars] }
+if answer.downcase == 'y'
+  write_config('.bash_profile') { @bash_profile }
+  write_config('.aliases') { @aliases.join("\n") }
+  write_config('.bashrc') { @bashrc.join("\n") }
+  write_config('.profile') { [@paths, @manpaths, @vars].flatten.join("\n") }
 end

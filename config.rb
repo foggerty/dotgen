@@ -41,7 +41,7 @@
 source ~/.bashrc
 )
 
-@bashrc_aliases = %q(# Aliases
+@bashrc_load_aliases = %q(# Aliases
 if [ -f ~/.aliases ]; then
     source ~/.aliases
 fi
@@ -84,16 +84,16 @@ shopt -s checkwinsize
     :name => "Common aliases",
     :description => "Avoid common foot-bullets, and generally make the shell nicer.",
     :aliases =>
-    {
-      :rm => "rm -i",
-      :cp => "cp -i",
-      :mv => "mv -i",
-      :ls => "ls -h #{os_opt(@ls_color)}"
-    }
+      {
+        :rm => "rm -i",
+        :cp => "cp -i",
+        :mv => "mv -i",
+        :ls => "ls -h #{os_opt(@ls_color)}"
+      }
   },
 
   {
-    :name => "Core utils.",
+    :name => "Core utils",
     :os => :osx,
     :description => "Make sure GNU utils appear on the path before OSX ones.",
     :paths => ["/usr/local/opt/coreutils/libexec/gnubin:$PATH"],
@@ -105,9 +105,9 @@ shopt -s checkwinsize
     :description => "Make man pages prettier.",
     :test => "which most",
     :aliases =>
-    {
-      :man => "man -P most"
-    }
+      {
+        :man => "man -P most"
+      }
   },
 
   {
@@ -123,13 +123,13 @@ shopt -s checkwinsize
     :test => "which git",
     :description => "Collection of aliases for git.",
     :aliases =>
-    {
-      :gts => "git status -s -b --column",
-      :gtc => "git checkout",
-      :gtl => "git log --graph --decorate=full",
-      :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
-      :gtb => "git branch -vva"
-    }
+      {
+        :gts => "git status -s -b --column",
+        :gtc => "git checkout",
+        :gtl => "git log --graph --decorate=full",
+        :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
+        :gtb => "git branch -vva"
+      }
   },
 
   {
@@ -146,12 +146,12 @@ shopt -s checkwinsize
     :test => "[ -d \"$HOME/bin\" ]"
   },
   {
-    :name => "cmatrix",
+    :name => "CMatrix",
     :test => "which cmatrix",
     :description => "Defaults for cmatrix.",
     :aliases =>
-    {
-      :cmatrix => "cmatrix -b -u 8 -C blue"
-    }
+      {
+        :cmatrix => "cmatrix -b -u 8 -C blue"
+      }
   }
 ]

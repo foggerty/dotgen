@@ -3,7 +3,7 @@
 ################################################################################
 
 def bail(msg)
-  SSTDERR.puts(msg)
+  STDERR.puts(msg)
   exit 1
 end
 
@@ -13,61 +13,67 @@ end
 # return the empty string.
 
 def os_opt(options)
-  if block_given? && !yield
-    return ""
-  end
-
   result = options[@os]
 
-  if result == nil
-    bail 'os_opt - options does not contain a recognised OS symbol.'
-  end
+  bail 'os_opt - options does not contain a recognised OS symbol.' if result.nil?
 
   result
 end
 
-def runTest(cfg)
-  result =
-    cfg[:test] == nil ||
-    system(cfg[:test], :err => File::NULL, :out => File::NULL )
+################################################################################
+## Sanity tests
+################################################################################
 
-  if(!result)
-    STDERR.puts "Config for '#{cfg[:name]}' failed test."
-  end
+def config_enabled?(cfg)
+  enabled = cfg[:enabled].nil? || cfg[:enabled] == true
+  right_os = cfg[:os].nil? || cfg[:os] == @os
 
-  result;
+  warn "#{cfg[:name]} is disabled" unless enabled
+  warn "#{cfg[:name]} is for another OS" if enabled && !right_os
+
+  enabled && right_os
 end
 
-def isConfig(cfg)
-  if cfg.class == Hash && cfg[:name].class == String
+def correct_type?(cfg, entry_name, expected_type)
+  return true if cfg[entry_name].nil?
 
-    enabled = cfg[:enabled] == nil || cfg[:enabled] == true
-    right_os = cfg[:os] == nil || cfg[:os] == @os
+  ok = cfg[entry_name].class == expected_type
 
-    return enabled && right_os
-  end
+  warn ":#{entry_name} must be a #{expected_type} in entry '#{cfg[:name]}'" unless ok
 
-  STDERR.puts "Each config entry must be a hash, with a :name key (string)."
-
-  return false
+  ok
 end
 
-def isCorrectType(cfg, entryName, expectedType)
-  return true if cfg[entryName] == nil
+def run_test(cfg)
+  result = cfg[:test].nil? || system(cfg[:test], {:err => File::NULL, :out => File::NULL})
 
-  if cfg[entryName].class != expectedType
-    STDERR.puts ":#{entryName} must be a #{expectedType} in entry '#{cfg[:name]}'"
-    return false
-  end
+  warn "Config for '#{cfg[:name]}' failed test." unless result
 
-  return true
+  result
+end
+
+def valid_config?(cfg)
+  valid_entry = cfg.class == Hash &&
+    cfg[:name].class == String &&
+    !cfg[:name].chomp.empty?
+
+  warn 'Config entry must be a hash containing a ":name" key.' unless valid_entry
+
+  valid_entry &&
+    config_enabled?(cfg) &&
+    correct_type?(cfg, :aliases, Hash) &&
+    correct_type?(cfg, :paths, Array) &&
+    correct_type?(cfg, :manpaths, Array) &&
+    correct_type?(cfg, :test, String) &&
+    correct_type?(cfg, :vars, Hash) &&
+    run_test(cfg)
 end
 
 ################################################################################
-## Extract/copy 'stuff'
+## Extract/copy 'stuff' from config
 ################################################################################
 
-def extractPaths(cfg, key, prefix)
+def extract_paths(cfg, key, prefix)
   result = ["# #{cfg[:name]}"]
 
   cfg[key].each do |p|
@@ -81,7 +87,7 @@ def extractPaths(cfg, key, prefix)
   result << "\n"
 end
 
-def extractMap(cfg, key, name)
+def extract_map(cfg, key, name)
   result = ["# #{cfg[:name]}"]
 
   cfg[key].each do |a, c|
@@ -91,38 +97,39 @@ def extractMap(cfg, key, name)
   result << "\n"
 end
 
-def extractAliases(cfg)
-  extractMap(cfg, :aliases, "alias")
+def extract_aliases(cfg)
+  extract_map(cfg, :aliases, 'alias')
 end
 
-def extractVars(cfg)
-  extractMap(cfg, :vars, "export")
+def extract_vars(cfg)
+  extract_map(cfg, :vars, 'export')
 end
 
 ################################################################################
-## Output 'stuff
+## Output 'stuff'
 ################################################################################
 
-# Expects a block that returns an array of string.
-def writeConfig(name)
-  if !block_given?
-    puts "'writeConfig() requires a block."
+# Generates bash code for all config that has a given key, by using
+# the supplied transform function.
+def generate(key, &transform)
+  @config                              # for each config entry
+    .filter { |cfg| !cfg[key].nil? }   # that has a matching key
+    .map { |cfg| transform.call(cfg) } # extract what we need
+    .flatten                           # and flatten the results
+end
+
+# Expects a block that returns a string.
+def write_config(name)
+  unless block_given?
+    puts 'writeConfig() requires a block.'
     exit 1
   end
 
   content = yield
 
-  if content.class != String && content.class != Array
-    bail "'writeConfig(#{name})' expects to receive a string or array."
-  end
+  home = ENV['HOME'] + '/'
 
-  if content.class == Array
-    content = content.join("\n")
-  end
-
-  home = ENV["HOME"] + "/"
-
-  File.open(home + name, "w") do |file|
-    file.write(content + "\n")
+  File.open(home + name, 'w') do |file|
+    file.write(content)
   end
 end
