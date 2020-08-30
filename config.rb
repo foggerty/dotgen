@@ -153,5 +153,11 @@ shopt -s checkwinsize
       {
         :cmatrix => "cmatrix -b -u 8 -C blue"
       }
+  },
+  {
+    :name => ".NET Core",
+    :test => "which dotnet",
+    :description => ".NET Core Framework.",
+    :paths => ["~/.dotnet/tools"]
   }
 ]
