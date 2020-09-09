@@ -66,6 +66,8 @@ def valid_config?(cfg)
     correct_type?(cfg, :manpaths, Array) &&
     correct_type?(cfg, :test, String) &&
     correct_type?(cfg, :vars, Hash) &&
+    correct_type?(cfg, :bashrc, Array) &&
+    correct_type?(cfg, :profile, Array) &&
     run_test(cfg)
 end
 
@@ -103,6 +105,12 @@ end
 
 def extract_vars(cfg)
   extract_map(cfg, :vars, 'export')
+end
+
+def extract_bashrc(cfg)
+  result = ["# #{cfg[:name]}"]
+  result << cfg[:bashrc]
+  result << "\n"
 end
 
 ################################################################################

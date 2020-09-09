@@ -4,15 +4,14 @@
 #   :name - single string.
 #
 # Each config entry can contain:
-#   :enabled - false, otherwise assumed to be true (can omit).
-#   :os - either :linux or :osx if this only applies to one OS.
-#   :description - comments.
-#   :test - simple command to determine if required app is actually installed.
-#   :version - semver version; must be exact match.
-#   :version_test - command to get the version (i.e. 'git --version')
+#   :enabled - Defaults to true.
+#   :os - Either :linux or :osx if this only applies to one OS.
+#   :description - Comments (preferably, descriptive ones).
+#   :test - Simple command to determine if config should be applied.
 #   :paths - an array of paths to add.
 #   :aliases - another hash containing key-value (alias-command) pairs.
-#   :installation - instructions on how to install if test fails.  Because
+#   :bashrc - an array of shell code to dump straight into .bashrc.
+#   :TODO installation - instructions on how to install if test fails.  Because
 #    this is to work with multiple operating systems, usually just a link to
 #    the project's web site, unless you're customising this for a single OS,
 #    in which case go nuts, and turn it into automatic installation!
@@ -84,12 +83,12 @@ shopt -s checkwinsize
     :name => "Common aliases",
     :description => "Avoid common foot-bullets, and generally make the shell nicer.",
     :aliases =>
-      {
-        :rm => "rm -i",
-        :cp => "cp -i",
-        :mv => "mv -i",
-        :ls => "ls -h #{os_opt(@ls_color)}"
-      }
+    {
+      :rm => "rm -i",
+      :cp => "cp -i",
+      :mv => "mv -i",
+      :ls => "ls -h #{os_opt(@ls_color)}"
+    }
   },
 
   {
@@ -105,9 +104,9 @@ shopt -s checkwinsize
     :description => "Make man pages prettier.",
     :test => "which most",
     :aliases =>
-      {
-        :man => "man -P most"
-      }
+    {
+      :man => "man -P most"
+    }
   },
 
   {
@@ -123,13 +122,13 @@ shopt -s checkwinsize
     :test => "which git",
     :description => "Collection of aliases for git.",
     :aliases =>
-      {
-        :gts => "git status -s -b --column",
-        :gtc => "git checkout",
-        :gtl => "git log --graph --decorate=full",
-        :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
-        :gtb => "git branch -vva"
-      }
+    {
+      :gts => "git status -s -b --column",
+      :gtc => "git checkout",
+      :gtl => "git log --graph --decorate=full",
+      :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
+      :gtb => "git branch -vva"
+    }
   },
 
   {
@@ -150,14 +149,28 @@ shopt -s checkwinsize
     :test => "which cmatrix",
     :description => "Defaults for cmatrix.",
     :aliases =>
-      {
-        :cmatrix => "cmatrix -b -u 8 -C blue"
-      }
+    {
+      :cmatrix => "cmatrix -b -u 8 -C blue"
+    }
   },
   {
     :name => ".NET Core",
     :test => "which dotnet",
     :description => ".NET Core Framework.",
     :paths => ["~/.dotnet/tools"]
+  },
+  {
+    :name => "Emacs Client",
+    :description => "Alias for Emacs client.",
+    :aliases =>
+    {
+      :em => "emacsclient -t"
+    }
+  },
+  {
+    :name => "Keychain",
+    :description => "CLI keychain script for ssh-agent/add.",
+    :test => "which keychain",
+    :bashrc => ["eval $(keychain --eval --quiet id_rsa)"]
   }
 ]

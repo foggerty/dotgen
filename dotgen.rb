@@ -30,11 +30,14 @@ puts "Applying #{@config.length} of #{initial_config_length} entries..."
 @paths    = generate(:paths)    { |cfg| extract_paths(cfg, :paths, 'PATH') }
 @manpaths = generate(:manpaths) { |cfg| extract_paths(cfg, :manpaths, 'MANPATH') }
 @vars     = generate(:vars)     { |cfg| extract_vars(cfg) }
+@cmds     = generate(:bashrc)   { |cfg| extract_bashrc(cfg) }
 
 @bashrc << @bash_sanity
 @bashrc << @bashrc_load_aliases
 @bashrc << '# Prompt'
 @bashrc << "PS1=\"#{@prompt}\"\n"
+@bashrc << @cmds.join("\n")
+
 
 ################################################################################
 ## Doom, death and destruction - write our finished results.

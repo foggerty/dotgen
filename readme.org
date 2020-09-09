@@ -18,29 +18,33 @@ decide where the various bits of configuration go, because I can never
 bloody remember.
 
 * Generated dot files
- - .profile :: used by many shells.  Put one-time setup stuff here
-      (environment variables, paths etc), things that will be used by
-      all applications.  Note that not all graphical shells will use
-      this file (because god hates you, probably).  At some point I'll
-      look up which ones and list them here.
- - .bashrc :: bash-specific configuration (aliases, prompt,
-      user-specific environment variables etc.)
- - .bash_profile ::  bash's version of .profile.  This should source
-      .profile and .bashrc (in that order!) and nothing else.
- - .aliases :: collection of Bash aliases, referenced by .bashrc.
+- .profile :: used by many shells.  Put one-time setup stuff here
+  (environment variables, paths etc), things that will be used by
+  all applications.  Note that not all graphical shells will use
+  this file (because god hates you, probably).  At some point I'll
+  look up which ones and list them here.
+- .bashrc :: bash-specific configuration (aliases, prompt,
+  user-specific environment variables etc.)
+- .bash_profile ::  bash's version of .profile.  This should source
+  .profile and .bashrc (in that order!) and nothing else.
+- .aliases :: collection of Bash aliases, referenced by .bashrc.
 
 * Todo
- - [X] Sanity check.
- - [X] First, just output the aliases file.
- - [X] Move config array out into a separate file.
- - [X] Paths.
- - [X] Get writing output.
- - [X] Add prompt support.
- - [X] Move all config (i.e. os specific options) into config, along with config helper functions.
- - [X] prompt to replace working files
- - [X] Test functions.
- - [X] Make less 'scripty' - i.e. move most things into functions.
- - [X] Write if test failed to stderr, but continue with rest of entries.
- - [ ] Error on alias collisions.
- - [ ] Path and Manpath should be grouped together (by app).
- - [ ] Find a functional scripting language and redo!.  Ruby's tooling (rvm vs gem vs ri not having the standard bloody lib docs installed and being unable to install them because I used my distro's package manager to install Ruby instead of installing RVM via a sodding Curl script) is irritating as hell, and the language is starting to feel clunky now that I've made the code as functional as I can (for now).  Maybe missing something, but I really don't think that Ruby is an 'acceptable Lisp'.  It's like C# - start using the functional parts of the language and everything becomes cleaner and easier and you stop hating yourself quite so much.  But after a while, because this is a language that has OOP baked into it from the beginning, you start hitting a sort of impedance-mismatch, and the pain begins anew (although still WAY less!).
+- [X] Sanity check.
+- [X] First, just output the aliases file.
+- [X] Move config array out into a separate file.
+- [X] Paths.
+- [X] Get writing output.
+- [X] Add prompt support.
+- [X] Move all config (i.e. os specific options) into config, along with config helper functions.
+- [X] prompt to replace working files
+- [X] Test functions.
+- [X] Make less 'scripty' - i.e. move most things into functions.
+- [X] Write if test failed to stderr, but continue with rest of entries.
+- [X] Support to just dump raw code into :bashrc
+- [ ] Error on alias collisions.
+- [ ] Path and Manpath should be grouped together (by app).
+- [ ] Add support for :installation config.
+- [ ] Remove :linux/:osx tests, and instead have a generic test/replace framework.  Something similar to Clojure's polymorphism.
+- [ ] Skim to Ruby meta-programming articles, may be able to turn some of the config (thinking in particular about the :linux / :osx stuff).
+- [ ] Look into Jannet as a replacement language.
