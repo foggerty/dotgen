@@ -5,12 +5,11 @@ load './config.rb'
 @paths = []
 @manpaths = []
 @bashrc = []
+@exports = [ ]
 
 ################################################################################
 ## Setup and sanity check.
 ################################################################################
-
-initial_config_length = @config.length
 
 @config.filter! do |cfg|
   valid_config?(cfg)
@@ -20,7 +19,7 @@ if @config.length.zero?
   bail 'Either all config is disabled/broken, or none of it applies to this OS.'
 end
 
-puts "Applying #{@config.length} of #{initial_config_length} entries..."
+@config.each{ |cfg| puts "APPLYING:\t#{cfg[:name]}" }
 
 ################################################################################
 ## Extract various configuration 'stuff'.
@@ -31,12 +30,14 @@ puts "Applying #{@config.length} of #{initial_config_length} entries..."
 @manpaths = generate(:manpaths) { |cfg| extract_paths(cfg, :manpaths, 'MANPATH') }
 @vars     = generate(:vars)     { |cfg| extract_vars(cfg) }
 @cmds     = generate(:bashrc)   { |cfg| extract_bashrc(cfg) }
+@exports  = generate(:exports)  { |cfg| extract_exports(cfg) }
 
 @bashrc << @bash_sanity
 @bashrc << @bashrc_load_aliases
 @bashrc << '# Prompt'
 @bashrc << "PS1=\"#{@prompt}\"\n"
 @bashrc << @cmds.join("\n")
+@bashrc << @exports.join("\n")
 
 
 ################################################################################

@@ -28,8 +28,7 @@ def config_enabled?(cfg)
   enabled = cfg[:enabled].nil? || cfg[:enabled] == true
   right_os = cfg[:os].nil? || cfg[:os] == @os
 
-  warn "#{cfg[:name]} is disabled" unless enabled
-  warn "#{cfg[:name]} is for another OS" if enabled && !right_os
+  warn "DISABLED: #{cfg[:name]}" unless enabled
 
   enabled && right_os
 end
@@ -47,7 +46,7 @@ end
 def run_test(cfg)
   result = cfg[:test].nil? || system(cfg[:test], {:err => File::NULL, :out => File::NULL})
 
-  warn "Config for '#{cfg[:name]}' failed test." unless result
+  warn "FAILED TEST: #{cfg[:name]}." unless result
 
   result
 end
@@ -103,8 +102,12 @@ def extract_aliases(cfg)
   extract_map(cfg, :aliases, 'alias')
 end
 
+def extract_exports(cfg)
+  extract_map(cfg, :exports, 'export')
+end
+
 def extract_vars(cfg)
-  extract_map(cfg, :vars, 'export')
+  extract_map(cfg, :vars, 'set')
 end
 
 def extract_bashrc(cfg)

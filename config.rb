@@ -32,6 +32,8 @@
 #
 ################################################################################
 
+load 'dotgenlib.rb'
+
 ################################################################################
 # Header/file constants.
 ################################################################################
@@ -59,14 +61,25 @@ shopt -s checkwinsize
 # Platform and system capabilities.
 ################################################################################
 
-@os = /linux/i =~ RUBY_PLATFORM ? :linux : :osx
+if RUBY_PLATFORM.include?("linux")
+  @os = :linux
+elsif RUBY_PLATFORM.include?("openbsd")
+  @os = :openbsd
+elsif RUBY_PLATFORM.include?("darwin")
+  @os = :osx
+else
+  bail("Cannot determine operating system.")
+end
+
+warn "Operating System: #{@os}"
 
 ################################################################################
 # OS specific options.
 ################################################################################
 
-@ls_color = {:osx    => "-G",
-             :linux  => "--color=auto"}
+@ls_color = {:osx     => "-G",
+             :linux   => "--color=auto",
+             :openbsd => ""}
 
 ################################################################################
 # Prompt.
@@ -144,8 +157,10 @@ shopt -s checkwinsize
     :paths => ["~/bin"],
     :test => "[ -d \"$HOME/bin\" ]"
   },
+
   {
     :name => "CMatrix",
+    :os => :linux,
     :test => "which cmatrix",
     :description => "Defaults for cmatrix.",
     :aliases =>
@@ -153,22 +168,31 @@ shopt -s checkwinsize
       :cmatrix => "cmatrix -b -u 8 -C blue"
     }
   },
+
   {
     :name => ".NET Core",
     :test => "which dotnet",
     :description => ".NET Core Framework.",
     :paths => ["~/.dotnet/tools"]
   },
+
   {
     :name => "Emacs Client",
+    :test => "which emacsclient",
     :description => "Alias for Emacs client.",
     :aliases =>
     {
       :em => "emacsclient -t"
+    },
+    :exports =>
+    {
+      :EDITOR => "emacsclient -t"
     }
   },
+
   {
     :name => "Keychain",
+    :os => :linux,
     :description => "CLI keychain script for ssh-agent/add.",
     :test => "which keychain",
     :bashrc => ["eval $(keychain --eval --quiet id_rsa)"]
