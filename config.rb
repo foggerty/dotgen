@@ -30,6 +30,12 @@
 # Obviously, if you do this multiple time, you'll need to order applications
 # in the configuration accordingly.
 #
+# Note that there is no checking for collisions in aliases.  In fact,
+# the 'colorls' config below will override the 'ls' alias defined in
+# the 'common aliases' config just because it's processed last when
+# Bash reads it's config.  At some point I'll put in a warning when
+# that happens...
+#
 ################################################################################
 
 load 'dotgenlib.rb'
@@ -160,7 +166,6 @@ warn "Operating System: #{@os}"
 
   {
     :name => "CMatrix",
-    :os => :linux,
     :test => "which cmatrix",
     :description => "Defaults for cmatrix.",
     :aliases =>
@@ -196,5 +201,16 @@ warn "Operating System: #{@os}"
     :description => "CLI keychain script for ssh-agent/add.",
     :test => "which keychain",
     :bashrc => ["eval $(keychain --eval --quiet id_rsa)"]
+  },
+
+  {
+    :name => "ColorLs",
+    :os => :openbsd,
+    :description => "Color ls output for OpenBSD.",
+    :test => "which colorls",
+    :aliases =>
+    {
+      :ls => "colorls -Gh"
+    }
   }
 ]
