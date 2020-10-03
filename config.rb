@@ -102,12 +102,12 @@ warn "Operating System: #{@os}"
     :name => "Common aliases",
     :description => "Avoid common foot-bullets, and generally make the shell nicer.",
     :aliases =>
-    {
-      :rm => "rm -i",
-      :cp => "cp -i",
-      :mv => "mv -i",
-      :ls => "ls -h #{os_opt(@ls_color)}"
-    }
+      {
+        :rm => "rm -i",
+        :cp => "cp -i",
+        :mv => "mv -i",
+        :ls => "ls -h #{os_opt(@ls_color)}"
+      }
   },
 
   {
@@ -123,9 +123,9 @@ warn "Operating System: #{@os}"
     :description => "Make man pages prettier.",
     :test => "which most",
     :aliases =>
-    {
-      :man => "man -P most"
-    }
+      {
+        :man => "man -P most"
+      }
   },
 
   {
@@ -141,13 +141,14 @@ warn "Operating System: #{@os}"
     :test => "which git",
     :description => "Collection of aliases for git.",
     :aliases =>
-    {
-      :gts => "git status -s -b --column",
-      :gtc => "git checkout",
-      :gtl => "git log --graph --decorate=full",
-      :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
-      :gtb => "git branch -vva"
-    }
+      {
+        :gts => "git status -s -b --column",
+        :gtc => "git checkout",
+        :gtl => "git log --graph --decorate=full",
+        :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
+        :gtb => "git branch -vva",
+        :gtp => "git pull --rebase"
+      }
   },
 
   {
@@ -169,9 +170,9 @@ warn "Operating System: #{@os}"
     :test => "which cmatrix",
     :description => "Defaults for cmatrix.",
     :aliases =>
-    {
-      :cmatrix => "cmatrix -b -u 8 -C blue"
-    }
+      {
+        :cmatrix => "cmatrix -b -u 8 -C blue"
+      }
   },
 
   {
@@ -186,13 +187,13 @@ warn "Operating System: #{@os}"
     :test => "which emacsclient",
     :description => "Alias for Emacs client.",
     :aliases =>
-    {
-      :em => "emacsclient -t"
-    },
+      {
+        :em => "emacsclient -t"
+      },
     :exports =>
-    {
-      :EDITOR => "emacsclient -t"
-    }
+      {
+        :EDITOR => "emacsclient -t"
+      }
   },
 
   {
@@ -209,8 +210,8 @@ warn "Operating System: #{@os}"
     :description => "Color ls output for OpenBSD.",
     :test => "which colorls",
     :aliases =>
-    {
-      :ls => "colorls -Gh"
-    }
+      {
+        :ls => "colorls -Gh"
+      }
   }
 ]
