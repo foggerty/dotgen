@@ -102,12 +102,13 @@ warn "Operating System: #{@os}"
     :name => "Common aliases",
     :description => "Avoid common foot-bullets, and generally make the shell nicer.",
     :aliases =>
-      {
-        :rm => "rm -i",
-        :cp => "cp -i",
-        :mv => "mv -i",
-        :ls => "ls -h #{os_opt(@ls_color)}"
-      }
+    {
+      :rm => "rm -i",
+      :cp => "cp -i",
+      :mv => "mv -i",
+      :ls => "ls -h #{os_opt(@ls_color)}",
+      :grep => "grep --color=auto" # different for OpenBSD?
+    }
   },
 
   {
@@ -123,9 +124,9 @@ warn "Operating System: #{@os}"
     :description => "Make man pages prettier.",
     :test => "which most",
     :aliases =>
-      {
-        :man => "man -P most"
-      }
+    {
+      :man => "man -P most"
+    }
   },
 
   {
@@ -141,14 +142,14 @@ warn "Operating System: #{@os}"
     :test => "which git",
     :description => "Collection of aliases for git.",
     :aliases =>
-      {
-        :gts => "git status -s -b --column",
-        :gtc => "git checkout",
-        :gtl => "git log --graph --decorate=full",
-        :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
-        :gtb => "git branch -vva",
-        :gtp => "git pull --rebase"
-      }
+    {
+      :gts => "git status -s -b --column",
+      :gtc => "git checkout",
+      :gtl => "git log --graph --decorate=full",
+      :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
+      :gtb => "git branch -vva",
+      :gtp => "git pull --rebase"
+    }
   },
 
   {
@@ -170,9 +171,9 @@ warn "Operating System: #{@os}"
     :test => "which cmatrix",
     :description => "Defaults for cmatrix.",
     :aliases =>
-      {
-        :cmatrix => "cmatrix -b -u 8 -C blue"
-      }
+    {
+      :cmatrix => "cmatrix -b -u 8 -C blue"
+    }
   },
 
   {
@@ -187,13 +188,13 @@ warn "Operating System: #{@os}"
     :test => "which emacsclient",
     :description => "Alias for Emacs client.",
     :aliases =>
-      {
-        :em => "emacsclient -t"
-      },
+    {
+      :em => "emacsclient -t"
+    },
     :exports =>
-      {
-        :EDITOR => "emacsclient -t"
-      }
+    {
+      :EDITOR => "emacsclient -t"
+    }
   },
 
   {
@@ -210,8 +211,30 @@ warn "Operating System: #{@os}"
     :description => "Color ls output for OpenBSD.",
     :test => "which colorls",
     :aliases =>
-      {
-        :ls => "colorls -Gh"
-      }
+    {
+      :ls => "colorls -Gh"
+    }
+  },
+
+  {
+    :name => "XDG defaults.",
+    :os => :linux,
+    :description => "Various ENV variables for XDG.",
+    :exports =>
+    {
+      :XDG_CONFIG_HOME => "/home/matt/.config",
+      :XDG_CACHE_HOME  => "/home/matt/.cache",
+      :XDG_DATA_HOME   => "/home/matt/.local/share"
+    }
+  },
+
+  {
+    :name => "pywal",
+    :description => "Oh god I've started ricing :-(",
+    :comments => "Found in the 'python-pywal' package.
+                  Note that still need to call 'wal-R' or 'wal -i path-to-pic'
+                  first, in something like the .xinit or bspwm init script.",
+    :test => "which wal",
+    :bashrc => ["(cat ~/.cache/wal/sequences &)"]
   }
 ]
