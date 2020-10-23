@@ -77,7 +77,7 @@ else
   bail("Cannot determine operating system.")
 end
 
-warn "Operating System: #{@os}"
+warn "Detected operating System: #{@os}"
 
 ################################################################################
 # OS specific options.
@@ -198,6 +198,16 @@ warn "Operating System: #{@os}"
   },
 
   {
+    :name => "pywal",
+    :description => "Oh god I've started ricing :-(",
+    :comments => "Found in the 'python-pywal' package.
+                  Note that still need to call 'wal-R' or 'wal -i path-to-pic'
+                  first, in something like the .xinit or bspwm init script.",
+    :test => "which wal",
+    :bashrc => ["(cat ~/.cache/wal/sequences &)"]
+  },
+
+  {
     :name => "Keychain",
     :os => :linux,
     :description => "CLI keychain script for ssh-agent/add.",
@@ -229,12 +239,12 @@ warn "Operating System: #{@os}"
   },
 
   {
-    :name => "pywal",
-    :description => "Oh god I've started ricing :-(",
-    :comments => "Found in the 'python-pywal' package.
-                  Note that still need to call 'wal-R' or 'wal -i path-to-pic'
-                  first, in something like the .xinit or bspwm init script.",
-    :test => "which wal",
-    :bashrc => ["(cat ~/.cache/wal/sequences &)"]
+    :name => "Libvirt",
+    :description => "Makes virt-manager and virsh play nice.",
+    :test => "which virsh",
+    :exports =>
+    {
+      :LIBVIRT_DEFAULT_URI => "qemu:///system"
+    }
   }
 ]
