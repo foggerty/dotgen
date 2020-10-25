@@ -153,13 +153,6 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :name => "Flutter",
-    :enabled => false,
-    :description => "Mobile development for great victory.",
-    :paths => ["$HOME/Development/flutter/bin"]
-  },
-
-  {
     :name => "Home bin directory",
     :description => "Add user's ~/bin directory to path.",
     :paths => ["~/bin"],
