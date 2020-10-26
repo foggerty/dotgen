@@ -37,7 +37,6 @@ end
 @bashrc << '# Prompt'
 @bashrc << "PS1=\"#{@prompt}\"\n"
 @bashrc << @cmds.join("\n")
-@bashrc << @exports.join("\n")
 
 
 ################################################################################
@@ -52,5 +51,5 @@ if answer.downcase == 'y'
   write_config('.bash_profile') { @bash_profile }
   write_config('.aliases') { @aliases.join("\n") }
   write_config('.bashrc') { @bashrc.join("\n") }
-  write_config('.profile') { [@paths, @manpaths, @vars].flatten.join("\n") }
+  write_config('.profile') { [@paths, @manpaths, @vars, @exports].flatten.join("\n") }
 end

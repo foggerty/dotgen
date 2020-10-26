@@ -239,5 +239,23 @@ warn "Detected operating System: #{@os}"
     {
       :LIBVIRT_DEFAULT_URI => "qemu:///system"
     }
+  },
+
+  {
+    :name => "Flutter",
+    :test => "which flutter",
+    :description => "Mobile development for great victory.",
+    :paths => ["/opt/flutter/bin/cache/dart-sdk/bin/"],
+    :aliases =>
+    {
+      :das => "dart /opt/flutter/bin/snapshots/analysis_server.dart.snapshot --lsp"
+    },
+
+    :exports =>
+    {
+      :DART_SDK => "/opt/flutter/bin/cache/dart-sdk/",
+      :FLUTTER_ROOT => "/opt/flutter"
+    }
   }
+
 ]
