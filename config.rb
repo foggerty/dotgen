@@ -73,6 +73,8 @@ elsif RUBY_PLATFORM.include?("openbsd")
   @os = :openbsd
 elsif RUBY_PLATFORM.include?("darwin")
   @os = :osx
+elsif RUBY_PLATFORM.include?("freebsd")
+  @os = :freebsd
 else
   bail("Cannot determine operating system.")
 end
@@ -85,7 +87,8 @@ warn "Detected operating System: #{@os}"
 
 @ls_color = {:osx     => "-G",
              :linux   => "--color=auto",
-             :openbsd => ""}
+             :openbsd => "",
+             :freebsd => "-G"}
 
 ################################################################################
 # Prompt.
