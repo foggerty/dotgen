@@ -259,6 +259,16 @@ warn "Detected operating System: #{@os}"
       :DART_SDK => "/opt/flutter/bin/cache/dart-sdk/",
       :FLUTTER_ROOT => "/opt/flutter"
     }
+  },
+
+  {
+    :name => "MOAR",
+    :test => "which moar",
+    :description => "'less', but with syntax-highlighting.",
+    :aliases =>
+    {
+      :less => "moar"
+    }
   }
 
 ]
