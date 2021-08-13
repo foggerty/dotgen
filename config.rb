@@ -262,6 +262,16 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :name => "alacritty",
+    :description => "Terminal emulator of the hilarious alpha-nerds.",
+    :test => "touch alacritty",
+    :aliases =>
+    {
+      :ssh => "TERM=xterm-256color ssh"
+    }
+  },
+
+  {
     :name => "MOAR",
     :test => "which moar",
     :description => "'less', but with syntax-highlighting.",
