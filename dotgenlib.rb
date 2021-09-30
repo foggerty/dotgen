@@ -26,11 +26,12 @@ end
 
 def config_enabled?(cfg)
   enabled = cfg[:enabled].nil? || cfg[:enabled] == true
-  right_os = cfg[:os].nil? || cfg[:os] == @os
+  right_os = cfg[:inc_os].nil? || cfg[:inc_os].include?(@os)
+  wrong_os = !cfg[:exc_os].nil? && cfg[:exc_os].include?(@os)
 
   warn "DISABLED: #{cfg[:name]}" unless enabled
 
-  enabled && right_os
+  enabled && right_os && !wrong_os
 end
 
 def correct_type?(cfg, entry_name, expected_type)
@@ -67,6 +68,8 @@ def valid_config?(cfg)
     correct_type?(cfg, :vars, Hash) &&
     correct_type?(cfg, :bashrc, Array) &&
     correct_type?(cfg, :profile, Array) &&
+    correct_type?(cfg, :inc_os, Array) &&
+    correct_type?(cfg, :exc_os, Array) &&
     run_test(cfg)
 end
 

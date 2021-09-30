@@ -5,7 +5,8 @@
 #
 # Each config entry can contain:
 #   :enabled - Defaults to true.
-#   :os - Either :linux or :osx if this only applies to one OS.
+#   :inc_os - An array of [:linux, :osx] etc, if this only applies to given OSs.
+#   :exc_os - An array of [:linux, :openbsd] etc, if this should be excluded from an os.
 #   :description - Comments (preferably, descriptive ones).
 #   :test - Simple command to determine if config should be applied.
 #   :paths - an array of paths to add.
@@ -18,6 +19,8 @@
 #
 # Note that if :version is supplied, :version_test MUST be supplied.
 # If :version_test is supplied but not :version, it will be ignored.
+#
+# ToDo - actually impliment versioning in the next version :-)
 #
 # If both :version and :test are present, both have to pass before the
 # entry will be processed.
@@ -85,10 +88,12 @@ warn "Detected operating System: #{@os}"
 # OS specific options.
 ################################################################################
 
-@ls_color = {:osx     => "-G",
-             :linux   => "--color=auto",
-             :openbsd => "",
-             :freebsd => "-G"}
+@ls_color = {
+  :osx     => "-G",
+  :linux   => "--color=auto",
+  :freebsd => "-G",
+  :openbsd => ""
+}
 
 ################################################################################
 # Prompt.
@@ -109,14 +114,33 @@ warn "Detected operating System: #{@os}"
       :rm => "rm -i",
       :cp => "cp -i",
       :mv => "mv -i",
-      :ls => "ls -h #{os_opt(@ls_color)}",
-      :grep => "grep --color=auto" # different for OpenBSD?
+    }
+  },
+
+  {
+    :name => "Color for basic cli apps.",
+    :inc_os => [:linux, :freebsd, :osx],
+    :aliases =>
+    {
+      :ls => "ls #{os_opt(@ls_color)}",
+      :grep => "grep --color=auto"
+    }
+  },
+
+  {
+    :name => "ColorLs",
+    :inc_os => [:openbsd],
+    :description => "Color ls output for OpenBSD.",
+    :test => "which colorls",
+    :aliases =>
+    {
+      :ls => "colorls -Gh"
     }
   },
 
   {
     :name => "Core utils",
-    :os => :osx,
+    :inc_os => [:osx],
     :description => "Make sure GNU utils appear on the path before OSX ones.",
     :paths => ["/usr/local/opt/coreutils/libexec/gnubin:$PATH"],
     :manpaths => ["/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"]
@@ -134,7 +158,7 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Go",
-    :enabled => true,
+    :test => "which go",
     :description => "Powered by gophers!",
     :paths => ["/usr/local/go/bin",
                "~/go/bin"]
@@ -205,26 +229,15 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Keychain",
-    :os => :linux,
+    :inc_os => [:linux],
     :description => "CLI keychain script for ssh-agent/add.",
     :test => "which keychain",
     :bashrc => ["eval $(keychain --eval --quiet id_rsa)"]
   },
 
   {
-    :name => "ColorLs",
-    :os => :openbsd,
-    :description => "Color ls output for OpenBSD.",
-    :test => "which colorls",
-    :aliases =>
-    {
-      :ls => "colorls -Gh"
-    }
-  },
-
-  {
     :name => "XDG defaults.",
-    :os => :linux,
+    :inc_os => [:linux],
     :description => "Various ENV variables for XDG.",
     :exports =>
     {
@@ -264,7 +277,7 @@ warn "Detected operating System: #{@os}"
   {
     :name => "alacritty",
     :description => "Terminal emulator of the hilarious alpha-nerds.",
-    :test => "touch alacritty",
+    :test => "which alacritty",
     :aliases =>
     {
       :ssh => "TERM=xterm-256color ssh"
@@ -280,5 +293,4 @@ warn "Detected operating System: #{@os}"
       :less => "moar"
     }
   }
-
 ]
