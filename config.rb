@@ -148,11 +148,21 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Most",
-    :description => "Make man pages prettier.",
+    :description => "Make man pages etc. prettier.",
     :test => "which most",
-    :aliases =>
+    :exports =>
     {
-      :man => "man -P most"
+      :PAGER => "most"
+    }
+  },
+
+  {
+    :name => "MOAR",
+    :test => "which moar",
+    :description => "'less/more', but with syntax-highlighting.",
+    :exports =>
+    {
+      :PAGER => "moar"
     }
   },
 
@@ -281,16 +291,6 @@ warn "Detected operating System: #{@os}"
     :aliases =>
     {
       :ssh => "TERM=xterm-256color ssh"
-    }
-  },
-
-  {
-    :name => "MOAR",
-    :test => "which moar",
-    :description => "'less', but with syntax-highlighting.",
-    :aliases =>
-    {
-      :less => "moar"
     }
   }
 ]

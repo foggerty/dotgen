@@ -54,8 +54,8 @@ end
 
 def valid_config?(cfg)
   valid_entry = cfg.class == Hash &&
-    cfg[:name].class == String &&
-    !cfg[:name].chomp.empty?
+                cfg[:name].class == String &&
+                !cfg[:name].chomp.empty?
 
   warn 'Config entry must be a hash containing a ":name" key.' unless valid_entry
 
