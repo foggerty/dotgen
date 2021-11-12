@@ -148,7 +148,8 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Most",
-    :description => "Make man pages etc. prettier.",
+    :description => "Make man pages prettier.",
+    :os => :linux,
     :test => "which most",
     :exports =>
     {
@@ -253,7 +254,8 @@ warn "Detected operating System: #{@os}"
     {
       :XDG_CONFIG_HOME => "/home/matt/.config",
       :XDG_CACHE_HOME  => "/home/matt/.cache",
-      :XDG_DATA_HOME   => "/home/matt/.local/share"
+      :XDG_DATA_HOME   => "/home/matt/.local/share",
+      :XKB_DEFAULT_OPTIONS => "ctrl:nocaps"
     }
   },
 
@@ -292,5 +294,29 @@ warn "Detected operating System: #{@os}"
     {
       :ssh => "TERM=xterm-256color ssh"
     }
+<<<<<<< HEAD
   }
+=======
+  },
+
+  {
+    :name => "MOAR",
+    :test => "which moar",
+    :description => "'less', but with syntax-highlighting.",
+    :aliases =>
+    {
+      :less => "moar"
+    }
+  },
+
+  {
+    :name => "Kvantum",
+    :description => "The bloody lengths I go to, to get virt-manager looking nice.",
+    :test => "which kvantum",
+    :exports =>
+    {
+      :QT_STYLE_OVERRIDE => "kvantum"
+    }
+  },
+>>>>>>> c253163 (Added Kvantum, added ctrl:nocaps to XKB defaults.)
 ]
