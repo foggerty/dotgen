@@ -191,10 +191,17 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :name => "Home bin directory",
+    :name => "~/bin directory",
     :description => "Add user's ~/bin directory to path.",
     :paths => ["~/bin"],
     :test => "[ -d \"$HOME/bin\" ]"
+  },
+
+  {
+    :name => "~./local/bin directory",
+    :description => "Add user's ~/bin directory to path.",
+    :paths => ["~/.local/bin"],
+    :test => "[ -d \"$HOME/.local/bin\" ]"
   },
 
   {
@@ -294,9 +301,6 @@ warn "Detected operating System: #{@os}"
     {
       :ssh => "TERM=xterm-256color ssh"
     }
-<<<<<<< HEAD
-  }
-=======
   },
 
   {
@@ -318,5 +322,15 @@ warn "Detected operating System: #{@os}"
       :QT_STYLE_OVERRIDE => "kvantum"
     }
   },
->>>>>>> c253163 (Added Kvantum, added ctrl:nocaps to XKB defaults.)
+
+  {
+    :name => "CFLAGS defaults",
+    :description => "The usual defaults ",
+    :exports =>
+    {
+      :CFLAGS => "-march=native -o2 -pipe",
+      :CXXFLAGS => "$CFLAGS",
+      :MAKEFLAGS => "-j$(nproc)"
+    }
+  }
 ]
