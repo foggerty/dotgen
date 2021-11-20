@@ -328,7 +328,7 @@ warn "Detected operating System: #{@os}"
     :description => "The usual defaults ",
     :exports =>
     {
-      :CFLAGS => "-march=native -o2 -pipe",
+      :CFLAGS => "-march=native -O2 -pipe",
       :CXXFLAGS => "$CFLAGS",
       :MAKEFLAGS => "-j$(nproc)"
     }
