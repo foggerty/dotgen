@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 load './dotgenlib.rb'
 load './config.rb'
 

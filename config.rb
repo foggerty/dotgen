@@ -122,7 +122,7 @@ warn "Detected operating System: #{@os}"
     :inc_os => [:linux, :freebsd, :osx],
     :aliases =>
     {
-      :ls => "ls #{os_opt(@ls_color)}",
+      :ls => "ls -h --group-directories-first #{os_opt(@ls_color)}",
       :grep => "grep --color=auto"
     }
   },
