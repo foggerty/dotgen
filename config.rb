@@ -304,16 +304,6 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :name => "MOAR",
-    :test => "which moar",
-    :description => "'less', but with syntax-highlighting.",
-    :aliases =>
-    {
-      :less => "moar"
-    }
-  },
-
-  {
     :name => "Kvantum",
     :description => "The bloody lengths I go to, to get virt-manager looking nice.",
     :test => "which kvantum",
