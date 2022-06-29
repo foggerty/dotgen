@@ -247,6 +247,7 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Keychain",
+    :enabled => true,
     :inc_os => [:linux],
     :description => "CLI keychain script for ssh-agent/add.",
     :test => "which keychain",
@@ -285,7 +286,6 @@ warn "Detected operating System: #{@os}"
     {
       :das => "dart /opt/flutter/bin/snapshots/analysis_server.dart.snapshot --lsp"
     },
-
     :exports =>
     {
       :DART_SDK => "/opt/flutter/bin/cache/dart-sdk/",
@@ -315,7 +315,8 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "CFLAGS defaults",
-    :description => "The usual defaults ",
+    :description => "The usual defaults." +
+                    "Note: remove -pipe if you want to compile the kernel...",
     :exports =>
     {
       :CFLAGS => "-march=native -O2 -pipe",
