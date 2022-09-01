@@ -107,13 +107,17 @@ warn "Detected operating System: #{@os}"
 
 @config = [
   {
-    :name => "Common aliases",
+    :name => "Common aliases & shell settings.",
     :description => "Avoid common foot-bullets, and generally make the shell nicer.",
     :aliases =>
     {
       :rm => "rm -i",
       :cp => "cp -i",
       :mv => "mv -i",
+    },
+    :exports =>
+    {
+      :TERM => "xterm-direct"
     }
   },
 
@@ -163,7 +167,8 @@ warn "Detected operating System: #{@os}"
     :description => "'less/more', but with syntax-highlighting.",
     :exports =>
     {
-      :PAGER => "moar"
+      :PAGER => "moar --colors 16M --no-linenumbers",
+      :MOAR => "--colors 16M --no-linenumbers"
     }
   },
 
@@ -296,11 +301,7 @@ warn "Detected operating System: #{@os}"
   {
     :name => "alacritty",
     :description => "Terminal emulator of the hilarious alpha-nerds.",
-    :test => "which alacritty",
-    :aliases =>
-    {
-      :ssh => "TERM=xterm-256color ssh"
-    }
+    :test => "which alacritty"
   },
 
   {
@@ -323,5 +324,11 @@ warn "Detected operating System: #{@os}"
       :CXXFLAGS => "$CFLAGS",
       :MAKEFLAGS => "-j$(nproc)"
     }
+  },
+
+  {
+    :name => "Sakura colours",
+    :description => "Allows Emacs to use true-colour in terminal.",
+    :test => "which sakura",
   }
 ]
