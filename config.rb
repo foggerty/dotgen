@@ -240,7 +240,7 @@ warn "Detected operating System: #{@os}"
     },
     :exports =>
     {
-      :EDITOR => "emacsclient -t"
+      :EDITOR => "emacsclient -c"
     }
   },
 
