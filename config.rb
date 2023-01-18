@@ -155,6 +155,10 @@ warn "Detected operating System: #{@os}"
     :description => "Make man pages prettier.",
     :os => :linux,
     :test => "which most",
+    :alias =>
+    {
+      :less => "most"
+    },
     :exports =>
     {
       :PAGER => "most"
@@ -330,5 +334,11 @@ warn "Detected operating System: #{@os}"
     :name => "Sakura colours",
     :description => "Allows Emacs to use true-colour in terminal.",
     :test => "which sakura",
+  },
+
+  {
+    :name => "Bash Completion",
+    :test => "[ -f \"/etc/profile.d/bash_completion.sh\" ]",
+    :bashrc => ["source /etc/profile.d/bash_completion.sh"]
   }
 ]
