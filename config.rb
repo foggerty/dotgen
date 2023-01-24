@@ -166,6 +166,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :enabled => false,
     :name => "MOAR",
     :test => "which moar",
     :description => "'less/more', but with syntax-highlighting.",
@@ -177,6 +178,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :enabled => false,
     :name => "Go",
     :test => "which go",
     :description => "Powered by gophers!",
@@ -193,7 +195,7 @@ warn "Detected operating System: #{@os}"
       :gts => "git status -s -b --column",
       :gtc => "git checkout",
       :gtl => "git log --graph --decorate=full",
-      :gtlt => "git log --graph --format=\"%Cgreen %h %p %Cred%d %Cblue%cn - %ar %Creset%s\"",
+      :gtlt => "git log --graph --format='%h %p %d %cn - %ar %s'",
       :gtb => "git branch -vva",
       :gtp => "git pull --rebase"
     }
@@ -214,6 +216,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :enabled => false,
     :name => "CMatrix",
     :test => "which cmatrix",
     :description => "Defaults for cmatrix.",
@@ -224,6 +227,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :enabled => false,
     :name => ".NET Core",
     :test => "which dotnet",
     :description => ".NET Core Framework.",
@@ -256,7 +260,6 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Keychain",
-    :enabled => true,
     :inc_os => [:linux],
     :description => "CLI keychain script for ssh-agent/add.",
     :test => "which keychain",
@@ -287,6 +290,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :enabled => false,
     :name => "Flutter",
     :test => "which flutter",
     :description => "Mobile development for great victory.",
@@ -309,6 +313,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :enabled => false,
     :name => "Kvantum",
     :description => "The bloody lengths I go to, to get virt-manager looking nice.",
     :test => "which kvantum",
@@ -331,6 +336,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :enabled => false,
     :name => "Sakura colours",
     :description => "Allows Emacs to use true-colour in terminal.",
     :test => "which sakura",
@@ -338,7 +344,7 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Bash Completion",
-    :test => "[ -f \"/etc/profile.d/bash_completion.sh\" ]",
-    :bashrc => ["source /etc/profile.d/bash_completion.sh"]
+    :test => "[ -f '/usr/share/bash-completion/bash_completion' ]",
+    :bashrc => ["source /usr/share/bash-completion/bash_completion"]
   }
 ]

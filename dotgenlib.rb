@@ -95,7 +95,7 @@ def extract_map(cfg, key, name)
   result = ["# #{cfg[:name]}"]
 
   cfg[key].each do |a, c|
-    result << "#{name} #{a}='#{c}'"
+    result << "#{name} #{a}=\"#{c}\""
   end
 
   result << "\n"
