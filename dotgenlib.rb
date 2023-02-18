@@ -113,6 +113,12 @@ def extract_vars(cfg)
   extract_map(cfg, :vars, 'set')
 end
 
+def extract_profile(cfg)
+  result = ["# #{cfg[:name]}"]
+  result << cfg[:profile]
+  result << "\n"
+end
+
 def extract_bashrc(cfg)
   result = ["# #{cfg[:name]}"]
   result << cfg[:bashrc]

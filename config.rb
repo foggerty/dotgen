@@ -152,6 +152,7 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Most",
+    :enabled => false,
     :description => "Make man pages prettier.",
     :os => :linux,
     :test => "which most",
@@ -166,7 +167,7 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :enabled => false,
+    :enabled => true,
     :name => "MOAR",
     :test => "which moar",
     :description => "'less/more', but with syntax-highlighting.",
@@ -174,6 +175,11 @@ warn "Detected operating System: #{@os}"
     {
       :PAGER => "moar --colors 16M --no-linenumbers",
       :MOAR => "--colors 16M --no-linenumbers"
+    },
+    :aliases =>
+    {
+      :less => "moar",
+      :more => "moar"
     }
   },
 
@@ -251,11 +257,11 @@ warn "Detected operating System: #{@os}"
   {
     :name => "pywal",
     :description => "Oh god I've started ricing :-(",
-    :comments => "Found in the 'python-pywal' package.
-                  Note that still need to call 'wal-R' or 'wal -i path-to-pic'
-                  first, in something like the .xinit or bspwm init script.",
+    :comments => "Found in the 'python-pywal' package.",
+    :profile => ["if [ -e ~/.cache/wal ]; then rm -rf ~/.cache/wal; fi",
+                 "wal -i ~/Pictures/Wallpapers/current"],
     :test => "which wal",
-    :bashrc => ["(cat ~/.cache/wal/sequences &)"]
+    :bashrc => ["(cat ~/.cache/wal/sequences &)"],
   },
 
   {
