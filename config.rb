@@ -171,6 +171,10 @@ warn "Detected operating System: #{@os}"
     :name => "MOAR",
     :test => "which moar",
     :description => "'less/more', but with syntax-highlighting.",
+    :aliases =>
+    {
+      :less => "moar"
+    },
     :exports =>
     {
       :PAGER => "moar --colors 16M --no-linenumbers",
