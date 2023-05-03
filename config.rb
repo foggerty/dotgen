@@ -122,6 +122,14 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :name => "SystemD aliases",
+    :description => "Aliases so that SystemD looks a bit more posixy.",
+    :aliases => {
+      :hostname => "hostnamectl hostname"
+    }
+  },
+
+  {
     :name => "Color for basic cli apps.",
     :inc_os => [:linux, :freebsd, :osx],
     :aliases =>
@@ -254,7 +262,7 @@ warn "Detected operating System: #{@os}"
     },
     :exports =>
     {
-      :EDITOR => "emacsclient -c"
+      :EDITOR => "emacsclient -t"
     }
   },
 
@@ -262,8 +270,8 @@ warn "Detected operating System: #{@os}"
     :name => "pywal",
     :description => "Oh god I've started ricing :-(",
     :comments => "Found in the 'python-pywal' package.",
-    :profile => ["if [ -e ~/.cache/wal ]; then rm -rf ~/.cache/wal; fi",
-                 "wal -i ~/Pictures/Wallpapers/current"],
+    :profile => [# "if [ -e ~/.cache/wal ]; then rm -rf ~/.cache/wal; fi",
+      "wal -i ~/Pictures/Wallpapers/current"],
     :test => "which wal",
     :bashrc => ["(cat ~/.cache/wal/sequences &)"],
   },
@@ -282,9 +290,11 @@ warn "Detected operating System: #{@os}"
     :description => "Various ENV variables for XDG.",
     :exports =>
     {
-      :XDG_CONFIG_HOME => "/home/matt/.config",
-      :XDG_CACHE_HOME  => "/home/matt/.cache",
-      :XDG_DATA_HOME   => "/home/matt/.local/share",
+      :XDG_CONFIG_HOME     => "/home/matt/.config",
+      :XDG_CACHE_HOME      => "/home/matt/.cache",
+      :XDG_CURRENT_DESKTOP => "Hyprland",
+      :XDG_DATA_HOME       => "/home/matt/.local/share",
+      :XDG_SESSION         => "wayland",
       :XKB_DEFAULT_OPTIONS => "ctrl:nocaps"
     }
   },
@@ -354,7 +364,16 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Bash Completion",
-    :test => "[ -f '/usr/share/bash-completion/bash_completion' ]",
+    :test => "[[ -f '/usr/share/bash-completion/bash_completion' ]]",
     :bashrc => ["source /usr/share/bash-completion/bash_completion"]
+  },
+
+  {
+    :name => "Wayland",
+    :description => "Run gui apps as root user (i.e. sudo) - bad I know, but aparently polkit is hard ;-)",
+    :test => "[[ -v WAYLAND_DISPAY ]]",
+    :aliases => [
+      :sudo => "sudo -preserve-env=XDG_RUNTIME_DIR,WAYLAND_DISPLAY"
+    ]
   }
 ]

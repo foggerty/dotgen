@@ -84,7 +84,7 @@ def extract_paths(cfg, key, prefix)
     if p.include?("$#{prefix}")
       result << "export #{prefix}=\"#{p}\""
     else
-      result << "export #{prefix}=\"$#{prefix}:#{p}\""
+      result << "export #{prefix}=\"#{p}:$#{prefix}\""
     end
   end
 
