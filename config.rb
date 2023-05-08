@@ -372,8 +372,16 @@ warn "Detected operating System: #{@os}"
     :name => "Wayland",
     :description => "Run gui apps as root user (i.e. sudo) - bad I know, but aparently polkit is hard ;-)",
     :test => "[[ -v WAYLAND_DISPAY ]]",
-    :aliases => [
+    :aliases => {
       :sudo => "sudo -preserve-env=XDG_RUNTIME_DIR,WAYLAND_DISPLAY"
-    ]
+    }
+  },
+  {
+    :name => "Ardour",
+    :test => "which ardour6"
+    :description => "Hack to get around long-standing bug in gtk2.",
+    :exports => {
+      :GTK2_RC_FILES => "/nonexistent"
+    }
   }
 ]
