@@ -114,10 +114,6 @@ warn "Detected operating System: #{@os}"
       :rm => "rm -i",
       :cp => "cp -i",
       :mv => "mv -i",
-    },
-    :exports =>
-    {
-      :TERM => "xterm-direct"
     }
   },
 
@@ -179,10 +175,6 @@ warn "Detected operating System: #{@os}"
     :name => "MOAR",
     :test => "which moar",
     :description => "'less/more', but with syntax-highlighting.",
-    :aliases =>
-    {
-      :less => "moar"
-    },
     :exports =>
     {
       :PAGER => "moar --colors 16M --no-linenumbers",
@@ -281,7 +273,7 @@ warn "Detected operating System: #{@os}"
     :inc_os => [:linux],
     :description => "CLI keychain script for ssh-agent/add.",
     :test => "which keychain",
-    :bashrc => ["eval $(keychain --eval --quiet id_rsa)"]
+    :bashrc => ["eval $(keychain --eval --quiet --noask id_rsa)"]
   },
 
   {
@@ -327,12 +319,6 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :name => "alacritty",
-    :description => "Terminal emulator of the hilarious alpha-nerds.",
-    :test => "which alacritty"
-  },
-
-  {
     :enabled => false,
     :name => "Kvantum",
     :description => "The bloody lengths I go to, to get virt-manager looking nice.",
@@ -369,16 +355,8 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :name => "Wayland",
-    :description => "Run gui apps as root user (i.e. sudo) - bad I know, but aparently polkit is hard ;-)",
-    :test => "[[ -v WAYLAND_DISPAY ]]",
-    :aliases => {
-      :sudo => "sudo -preserve-env=XDG_RUNTIME_DIR,WAYLAND_DISPLAY"
-    }
-  },
-  {
     :name => "Ardour",
-    :test => "which ardour6"
+    :test => "which ardour6",
     :description => "Hack to get around long-standing bug in gtk2.",
     :exports => {
       :GTK2_RC_FILES => "/nonexistent"
