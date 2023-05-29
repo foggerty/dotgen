@@ -277,21 +277,6 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :name => "XDG defaults.",
-    :inc_os => [:linux],
-    :description => "Various ENV variables for XDG.",
-    :exports =>
-    {
-      :XDG_CONFIG_HOME     => "/home/matt/.config",
-      :XDG_CACHE_HOME      => "/home/matt/.cache",
-      :XDG_CURRENT_DESKTOP => "Hyprland",
-      :XDG_DATA_HOME       => "/home/matt/.local/share",
-      :XDG_SESSION         => "wayland",
-      :XKB_DEFAULT_OPTIONS => "ctrl:nocaps"
-    }
-  },
-
-  {
     :name => "Libvirt",
     :description => "Makes virt-manager and virsh play nice.",
     :test => "which virsh",
