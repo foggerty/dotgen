@@ -184,6 +184,10 @@ warn "Detected operating System: #{@os}"
     {
       :less => "moar",
       :more => "moar"
+    },
+    :exports =>
+    {
+      :MOAR => "--colors 16"
     }
   },
 
