@@ -119,9 +119,11 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "SystemD aliases",
-    :description => "Aliases so that SystemD looks a bit more posixy.",
+    :description => "Aliases so that SystemD looks a bit more posixy and is easier to use.",
     :aliases => {
-      :hostname => "hostnamectl hostname"
+      :hostname => "hostnamectl hostname",
+      :sd_running => "systemctl list-unit-files --type=service --state=enabled",
+      :sd_failed => "systemctl list-units --type=service  --state=failed"
     }
   },
 
@@ -158,7 +160,7 @@ warn "Detected operating System: #{@os}"
     :name => "Most",
     :enabled => false,
     :description => "Make man pages prettier.",
-    :os => :linux,
+    :inc_os => [:linux],
     :test => "which most",
     :alias =>
     {
@@ -361,6 +363,7 @@ warn "Detected operating System: #{@os}"
   {
     :name => "Styling",
     :enabled => true,
+    :test => "which qt6ct",
     :exports =>
     {
       :comment => "Mostly using GTK3/4 apps, but Zeal is QT6.",
