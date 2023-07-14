@@ -45,6 +45,4 @@ bloody remember.
 - [ ] Error on alias collisions.
 - [ ] Path and Manpath should be grouped together (by app).
 - [ ] Add support for :installation config.
-- [ ] Remove :linux/:osx tests, and instead have a generic test/replace framework.  Something similar to Clojure's polymorphism.
-- [ ] Skim to Ruby meta-programming articles, may be able to turn some of the config (thinking in particular about the :linux / :osx stuff).
-- [ ] Look into Jannet as a replacement language.
+- [X] Look into Jannet as a replacement language.

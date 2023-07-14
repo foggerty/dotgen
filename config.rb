@@ -48,23 +48,23 @@ load 'dotgenlib.rb'
 ################################################################################
 
 @bash_profile = %q(source ~/.profile
-source ~/.bashrc
-)
+  source ~/.bashrc
+  )
 
 @bashrc_load_aliases = %q(# Aliases
-if [ -f ~/.aliases ]; then
-    source ~/.aliases
-fi
-)
+  if [ -f ~/.aliases ]; then
+  source ~/.aliases
+  fi
+  )
 
 # Setup bash options
 @bash_sanity = %q(# Bash configuration
-HISTCONTROL=ignoreboth
-HISTSIZE=1000
-HISTFILESIZE=2000
-shopt -s histappend
-shopt -s checkwinsize
-)
+  HISTCONTROL=ignoreboth
+  HISTSIZE=1000
+  HISTFILESIZE=2000
+  shopt -s histappend
+  shopt -s checkwinsize
+  )
 
 ################################################################################
 # Platform and system capabilities.
@@ -185,10 +185,6 @@ warn "Detected operating System: #{@os}"
       :less => "moar",
       :more => "moar"
     },
-    :exports =>
-    {
-      :MOAR => "--colors 16"
-    }
   },
 
   {
@@ -347,8 +343,29 @@ warn "Detected operating System: #{@os}"
     :name => "Ardour",
     :test => "which ardour6",
     :description => "Hack to get around long-standing bug in gtk2.",
-    :exports => {
+    :exports =>
+    {
       :GTK2_RC_FILES => "/nonexistent"
+    }
+  },
+
+  {
+    :name => "Neofetch",
+    :description => "Screen info tool, required for ricing.",
+    :aliases =>
+    {
+      :neofetch => "neofetch --backend off --color_blocks off --title_fqnm off"
+    }
+  },
+
+  {
+    :name => "Styling",
+    :enabled => true,
+    :exports =>
+    {
+      :comment => "Mostly using GTK3/4 apps, but Zeal is QT6.",
+      :QT_QPA_PLATFORMTHEME => "qt6ct",
+      :GTK2_RC_FILES => "/usr/share/themes/gnome-professional/gtk-2.0/gtkrc"
     }
   }
 ]
