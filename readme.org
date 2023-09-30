@@ -46,3 +46,4 @@ bloody remember.
 - [ ] Path and Manpath should be grouped together (by app).
 - [ ] Add support for :installation config.
 - [X] Look into Jannet as a replacement language.
+- [ ] 

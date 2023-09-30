@@ -173,8 +173,8 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    :enabled => true,
     :name => "MOAR",
+    :enabled => true,
     :test => "which moar",
     :description => "'less/more', but with syntax-highlighting.",
     :exports =>
@@ -256,7 +256,7 @@ warn "Detected operating System: #{@os}"
     },
     :exports =>
     {
-      :EDITOR => "emacsclient -t"
+      :EDITOR => "em"
     }
   },
 
@@ -356,7 +356,7 @@ warn "Detected operating System: #{@os}"
     :description => "Screen info tool, required for ricing.",
     :aliases =>
     {
-      :neofetch => "neofetch --backend off --color_blocks off --title_fqnm off"
+      :neofetch => "neofetch --color_blocks off --title_fqnm off"
     }
   },
 
