@@ -114,6 +114,7 @@ warn "Detected operating System: #{@os}"
       :rm => "rm -i",
       :cp => "cp -i",
       :mv => "mv -i",
+      :free => "free -hm"
     }
   },
 
