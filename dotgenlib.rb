@@ -8,9 +8,7 @@ def bail(msg)
 end
 
 # Will look up the OS specific option in hash 'options'.  Note that if
-# this method is called, 'options' MUST contain a matching key.  If a
-# block is provided that returns anything other than true, this will
-# return the empty string.
+# this method is called, 'options' MUST contain a matching key.
 
 def os_opt(options)
   result = options[@os]
@@ -25,8 +23,8 @@ end
 ################################################################################
 
 def config_enabled?(cfg)
-  enabled = cfg[:enabled].nil? || cfg[:enabled] == true
-  right_os = cfg[:inc_os].nil? || cfg[:inc_os].include?(@os)
+  enabled = cfg[:enabled].nil?  || cfg[:enabled] == true
+  right_os = cfg[:inc_os].nil?  || cfg[:inc_os].include?(@os)
   wrong_os = !cfg[:exc_os].nil? && cfg[:exc_os].include?(@os)
 
   warn "DISABLED: #{cfg[:name]}" unless enabled
@@ -45,7 +43,8 @@ def correct_type?(cfg, entry_name, expected_type)
 end
 
 def run_test(cfg)
-  result = cfg[:test].nil? || system(cfg[:test], {:err => File::NULL, :out => File::NULL})
+  result = cfg[:test].nil? ||
+           system(cfg[:test], {:err => File::NULL, :out => File::NULL})
 
   warn "FAILED TEST: #{cfg[:name]}." unless result
 

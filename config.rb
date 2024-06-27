@@ -47,10 +47,6 @@ load 'dotgenlib.rb'
 # Header/file constants.
 ################################################################################
 
-@bash_profile = %q(source ~/.profile
-  source ~/.bashrc
-  )
-
 @bashrc_load_aliases = %q(# Aliases
   if [ -f ~/.aliases ]; then
   source ~/.aliases
@@ -276,7 +272,7 @@ warn "Detected operating System: #{@os}"
     :inc_os => [:linux],
     :description => "CLI keychain script for ssh-agent/add.",
     :test => "which keychain",
-    :bashrc => ["eval $(keychain --eval --quiet --noask id_rsa)"]
+    :profile => ["eval $(keychain --systemd --eval --noask --agents ssh $HOME/.ssh/id_rsa)"]
   },
 
   {

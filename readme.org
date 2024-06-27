@@ -10,23 +10,18 @@ supplies us with) but ~--color~ in linux.
 
 The aim is to totally avoid ANY conditional logic or 'smarts' in the
 bash files, meaning that colour/platform detection etc happen
-here. This is mainly because a) I loathe bash scripting and b) I
-loathe bash scripting and c) to ensure that I get as close to
+here. This is mainly because a) I loathe shell scripting and b) I
+loathe shell scripting and c) to ensure that I get as close to
 identical environments when I move between machines.  I also want to
 be able to specify what an application needs, and have this script
 decide where the various bits of configuration go, because I can never
 bloody remember.
 
 * Generated dot files
-- .profile :: used by many shells.  Put one-time setup stuff here
-  (environment variables, paths etc), things that will be used by
-  all applications.  Note that not all graphical shells will use
-  this file (because god hates you, probably).  At some point I'll
-  look up which ones and list them here.
-- .bashrc :: bash-specific configuration (aliases, prompt,
-  user-specific environment variables etc.)
-- .bash_profile ::  bash's version of .profile.  This should source
-  .profile and .bashrc (in that order!) and nothing else.
+- .profile :: Put one-time setup (i.e. login) stuff here (environment
+  variables, paths etc) - things that will be used by all
+  applications.  This is what Bash reads with a login shell.
+- .bashrc :: Put things that need to be set for each (non-login) shell here.
 - .aliases :: collection of Bash aliases, referenced by .bashrc.
 
 * Todo
@@ -46,4 +41,4 @@ bloody remember.
 - [ ] Path and Manpath should be grouped together (by app).
 - [ ] Add support for :installation config.
 - [X] Look into Jannet as a replacement language.
-- [ ] 
+- [ ] Rewrite in Jannet?  Actually maybe Babashka.....
