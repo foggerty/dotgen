@@ -367,5 +367,11 @@ warn "Detected operating System: #{@os}"
       :QT_QPA_PLATFORMTHEME => "qt6ct",
       :GTK2_RC_FILES => "/usr/share/themes/gnome-professional/gtk-2.0/gtkrc"
     }
+  },
+
+  {
+    :name => "Ruby",
+    :test => "which ruby",
+    :paths => ["~/.local/share/gem/ruby/3.0.0/bin"]
   }
 ]
