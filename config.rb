@@ -373,5 +373,6 @@ warn "Detected operating System: #{@os}"
     :name => "Ruby",
     :test => "which ruby",
     :paths => ["~/.local/share/gem/ruby/3.0.0/bin"]
-  }
+  },
+
 ]
