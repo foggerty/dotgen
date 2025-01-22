@@ -258,6 +258,13 @@ warn "Detected operating System: #{@os}"
   },
 
   {
+    :name => "wallust",
+    :description => "Oh god I've started ricing :-(",
+    :test => "which wallust",
+    :bashrc => ["(cat ~/.cache/wallust/sequences &)"],
+  },
+
+  {
     :name => "pywal",
     :description => "Oh god I've started ricing :-(",
     :comments => "Found in the 'python-pywal' package.",
