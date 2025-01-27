@@ -363,6 +363,13 @@ warn "Detected operating System: #{@os}"
     :name => "Ruby",
     :test => "which ruby",
     :paths => ["~/.local/share/gem/ruby/3.0.0/bin"]
+  },
+
+    {
+    :name => "wallust",
+    :description => "Oh god I've started ricing :-(",
+    :test => "which wallust",
+    :bashrc => ["(cat ~/.cache/wallust/sequences &)"],
   }
 
 ]
