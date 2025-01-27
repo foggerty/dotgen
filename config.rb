@@ -249,29 +249,12 @@ warn "Detected operating System: #{@os}"
     :description => "Alias for Emacs client.",
     :aliases =>
     {
-      :em => "emacsclient -t"
+      :em => "TERM=alacritty-direct emacsclient -t"
     },
     :exports =>
     {
       :EDITOR => "em"
     }
-  },
-
-  {
-    :name => "wallust",
-    :description => "Oh god I've started ricing :-(",
-    :test => "which wallust",
-    :bashrc => ["(cat ~/.cache/wallust/sequences &)"],
-  },
-
-  {
-    :name => "pywal",
-    :description => "Oh god I've started ricing :-(",
-    :comments => "Found in the 'python-pywal' package.",
-    :profile => [# "if [ -e ~/.cache/wal ]; then rm -rf ~/.cache/wal; fi",
-      "wal -i ~/Pictures/Wallpapers/current"],
-    :test => "which wal",
-    :bashrc => ["(cat ~/.cache/wal/sequences &)"],
   },
 
   {
@@ -380,6 +363,6 @@ warn "Detected operating System: #{@os}"
     :name => "Ruby",
     :test => "which ruby",
     :paths => ["~/.local/share/gem/ruby/3.0.0/bin"]
-  },
+  }
 
 ]
