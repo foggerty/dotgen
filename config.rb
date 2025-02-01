@@ -155,7 +155,7 @@ warn "Detected operating System: #{@os}"
 
   {
     :name => "Most",
-    :enabled => false,
+    :enabled => true,
     :description => "Make man pages prettier.",
     :inc_os => [:linux],
     :test => "which most",
@@ -173,6 +173,7 @@ warn "Detected operating System: #{@os}"
     :name => "MOAR",
     :enabled => true,
     :test => "which moar",
+    :todo => "Set man pager.",
     :description => "'less/more', but with syntax-highlighting.",
     :exports =>
     {
@@ -201,7 +202,7 @@ warn "Detected operating System: #{@os}"
     :description => "Collection of aliases for git.",
     :aliases =>
     {
-      :gts => "git status -s -b --column",
+      :gts => "git status -s -b --column --ahead-behind",
       :gtc => "git checkout",
       :gtl => "git log --graph --decorate=full",
       :gtlt => "git log --graph --format='%h %p %d %cn - %ar %s'",
@@ -370,6 +371,13 @@ warn "Detected operating System: #{@os}"
     :description => "Oh god I've started ricing :-(",
     :test => "which wallust",
     :bashrc => ["(cat ~/.cache/wallust/sequences &)"],
-  }
+    },
+
+    {
+      :name => "Starship",
+      :description => "Pretty prompt",
+      :test => "which starship",
+      :bashrc => ["eval \"$(starship init bash)\""]
+    }
 
 ]
