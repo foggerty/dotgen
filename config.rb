@@ -47,6 +47,10 @@ load 'dotgenlib.rb'
 # Header/file constants.
 ################################################################################
 
+@bash_profile = %q(source ~/.profile
+  source ~/.bashrc
+  )
+
 @bashrc_load_aliases = %q(# Aliases
   if [ -f ~/.aliases ]; then
   source ~/.aliases
