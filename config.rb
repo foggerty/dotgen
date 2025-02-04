@@ -381,7 +381,7 @@ warn "Detected operating System: #{@os}"
       :name => "Starship",
       :description => "Pretty prompt",
       :test => "which starship",
-      :bashrc => ["eval \"$(starship init bash)\""]
+      :bashrc => ["if ! [[ $(env | grep TERM) =~ \"linux\" ]]; then eval $(starship init bash); fi"]
     }
 
 ]
