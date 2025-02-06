@@ -181,8 +181,9 @@ warn "Detected operating System: #{@os}"
     :description => "'less/more', but with syntax-highlighting.",
     :exports =>
     {
-      :PAGER => "moar --colors 16M --no-linenumbers",
-      :MOAR => "--colors 16M --no-linenumbers"
+      :PAGER => "/usr/bin/moar",
+      :MANPAGER => "/usr/bin/moar",
+      :MOAR => "--colors 16 --no-linenumbers"
     },
     :aliases =>
     {
