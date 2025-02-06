@@ -163,13 +163,9 @@ warn "Detected operating System: #{@os}"
     :description => "Make man pages prettier.",
     :inc_os => [:linux],
     :test => "which most",
-    :alias =>
-    {
-      :less => "most"
-    },
     :exports =>
     {
-      :PAGER => "most"
+      :MANPAGER => "most"
     }
   },
 
@@ -177,12 +173,10 @@ warn "Detected operating System: #{@os}"
     :name => "MOAR",
     :enabled => true,
     :test => "which moar",
-    :todo => "Set man pager.",
     :description => "'less/more', but with syntax-highlighting.",
     :exports =>
     {
       :PAGER => "/usr/bin/moar",
-      :MANPAGER => "/usr/bin/moar",
       :MOAR => "--colors 16 --no-linenumbers"
     },
     :aliases =>

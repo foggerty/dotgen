@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 load './dotgenlib.rb'
 load './config.rb'
