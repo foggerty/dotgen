@@ -47,39 +47,42 @@ load 'dotgenlib.rb'
 # Header/file constants.
 ################################################################################
 
-@bash_profile = %q(source ~/.profile
+@bash_profile = <<~BASH_PROFILE
+  source ~/.profile
   source ~/.bashrc
-  )
+BASH_PROFILE
 
-@bashrc_load_aliases = %q(# Aliases
+@bashrc_load_aliases = <<~ALIASES
+  # Aliases
   if [ -f ~/.aliases ]; then
-  source ~/.aliases
+    source ~/.aliases
   fi
-  )
+ALIASES
 
 # Setup bash options
-@bash_sanity = %q(# Bash configuration
+@bash_sanity = <<~SANITY
+  # Bash configuration
   HISTCONTROL=ignoreboth
   HISTSIZE=1000
   HISTFILESIZE=2000
   shopt -s histappend
   shopt -s checkwinsize
-  )
+SANITY
 
 ################################################################################
 # Platform and system capabilities.
 ################################################################################
 
-if RUBY_PLATFORM.include?("linux")
+if RUBY_PLATFORM.include?('linux')
   @os = :linux
-elsif RUBY_PLATFORM.include?("openbsd")
+elsif RUBY_PLATFORM.include?('openbsd')
   @os = :openbsd
-elsif RUBY_PLATFORM.include?("darwin")
+elsif RUBY_PLATFORM.include?('darwin')
   @os = :osx
-elsif RUBY_PLATFORM.include?("freebsd")
+elsif RUBY_PLATFORM.include?('freebsd')
   @os = :freebsd
 else
-  bail("Cannot determine operating system.")
+  bail('Cannot determine operating system.')
 end
 
 warn "Detected operating System: #{@os}"
@@ -89,10 +92,10 @@ warn "Detected operating System: #{@os}"
 ################################################################################
 
 @ls_color = {
-  :osx     => "-G",
-  :linux   => "--color=auto",
-  :freebsd => "-G",
-  :openbsd => ""
+  osx: '-G',
+  linux: '--color=auto',
+  freebsd: '-G',
+  openbsd: ''
 }
 
 ################################################################################
@@ -102,281 +105,262 @@ warn "Detected operating System: #{@os}"
 @prompt = '\u@\h - \W > '
 
 ################################################################################
+# Generators
+################################################################################
+
+def ruby_gem_ver
+  ver = `ruby --version | cut -d" " -f2`
+  i = ver.rindex(/\./)
+
+  ver[0..i]
+end
+
+################################################################################
 # Application configuration.
 ################################################################################
 
 @config = [
   {
-    :name => "Common aliases & shell settings.",
-    :description => "Avoid common foot-bullets, and generally make the shell nicer.",
-    :aliases =>
+    name: 'Common aliases & shell settings.',
+    description: 'Avoid common foot-bullets, and generally make the shell nicer.',
+    aliases:
     {
-      :rm => "rm -i",
-      :cp => "cp -i",
-      :mv => "mv -i",
-      :free => "free -hm"
+      rm: 'rm -i',
+      cp: 'cp -i',
+      mv: 'mv -i',
+      free: 'free -hm'
     }
   },
 
   {
-    :name => "SystemD aliases",
-    :description => "Aliases so that SystemD looks a bit more posixy and is easier to use.",
-    :aliases => {
-      :hostname => "hostnamectl hostname",
-      :sd_running => "systemctl list-unit-files --type=service --state=enabled",
-      :sd_failed => "systemctl list-units --type=service  --state=failed"
+    name: 'SystemD aliases',
+    description: 'Aliases to make SystemD easier to use.',
+    aliases: {
+      hostname: 'hostnamectl hostname',
+      sd_running: 'systemctl list-unit-files --type=service --state=enabled',
+      sd_failed: 'systemctl list-units --type=service  --state=failed'
     }
   },
 
   {
-    :name => "Color for basic cli apps.",
-    :inc_os => [:linux, :freebsd, :osx],
-    :aliases =>
+    name: 'Color for basic cli apps.',
+    inc_os: %i[linux, freebsd, osx],
+    aliases:
     {
-      :ls => "ls -h --group-directories-first #{os_opt(@ls_color)}",
-      :grep => "grep --color=auto"
+      ls: "ls -p -h --group-directories-first #{os_opt(@ls_color)}",
+      grep: 'grep --color=auto'
     }
   },
 
   {
-    :name => "ColorLs",
-    :inc_os => [:openbsd],
-    :description => "Color ls output for OpenBSD.",
-    :test => "which colorls",
-    :aliases =>
+    name: 'ColorLs',
+    inc_os: [:openbsd],
+    description: 'Color ls output for OpenBSD.',
+    test: 'which colorls',
+    aliases:
     {
-      :ls => "colorls -Gh"
+      ls: 'colorls -Gh'
     }
   },
 
   {
-    :name => "Core utils",
-    :inc_os => [:osx],
-    :description => "Make sure GNU utils appear on the path before OSX ones.",
-    :paths => ["/usr/local/opt/coreutils/libexec/gnubin:$PATH"],
-    :manpaths => ["/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"]
+    name: 'Core utils',
+    inc_os: [:osx],
+    description: 'Make sure GNU utils appear on the path before OSX ones.',
+    paths: ['/usr/local/opt/coreutils/libexec/gnubin:$PATH'],
+    manpaths: ['/usr/local/opt/coreutils/libexec/gnuman:$MANPATH']
   },
 
   {
-    :name => "Most",
-    :enabled => true,
-    :description => "Make man pages prettier.",
-    :inc_os => [:linux],
-    :test => "which most",
-    :exports =>
+    name: 'Most',
+    enabled: true,
+    description: 'Make man pages prettier.',
+    inc_os: [:linux],
+    test: 'which most',
+    exports:
     {
-      :MANPAGER => "most"
+      MANPAGER: 'most'
     }
   },
 
   {
-    :name => "MOAR",
-    :enabled => true,
-    :test => "which moar",
-    :description => "'less/more', but with syntax-highlighting.",
-    :exports =>
+    name: 'MOAR',
+    enabled: true,
+    test: 'which moar',
+    description: '"less/more", but with syntax-highlighting.',
+    exports:
     {
-      :PAGER => "/usr/bin/moar",
-      :MOAR => "--colors 16 --no-linenumbers"
+      PAGER: '/usr/bin/moar',
+      MOAR: '--colors 16 --no-linenumbers'
     },
-    :aliases =>
+    aliases:
     {
-      :less => "moar",
-      :more => "moar"
+      less: 'moar',
+      more: 'moar'
+    }
+  },
+
+  {
+    enabled: false,
+    name: 'Go',
+    test: 'which go',
+    description: 'Powered by gophers!',
+    paths: ['/usr/local/go/bin',
+            '~/go/bin']
+  },
+
+  {
+    name: 'Git',
+    test: 'which git',
+    description: 'Collection of aliases for git.',
+    aliases:
+    {
+      gts: 'git status -s -b --column --ahead-behind',
+      gtc: 'git checkout',
+      gtl: 'git log --graph --decorate=full',
+      gtlt: "git log --graph --format='%h %p %d %cn - %ar %s'",
+      gtb: 'git branch -vva',
+      gtp: 'git pull --rebase'
+    }
+  },
+
+  {
+    name: '~/bin directory',
+    description: 'Add user\'s ~/bin directory to path.',
+    paths: ['~/bin'],
+    test: "[ -d \"$HOME/bin\" ]"
+  },
+
+  {
+    name: './local/bin directory',
+    description: 'Add user\'s ~/.local/bin directory to path.',
+    paths: ['~/.local/bin'],
+    test: "[ -d \"$HOME/.local/bin\" ]"
+  },
+
+  {
+    enabled: false,
+    name: 'CMatrix',
+    test: 'which cmatrix',
+    description: 'Defaults for cmatrix.',
+    aliases:
+    {
+      cmatrix: 'cmatrix -b -u 8 -C blue'
+    }
+  },
+
+  {
+    enabled: false,
+    name: '.NET Core',
+    test: 'which dotnet',
+    description: '.NET Core Framework.',
+    paths: ['~/.dotnet/tools']
+  },
+
+  {
+    name: 'Emacs Client',
+    test: 'which emacsclient',
+    description: 'Alias for Emacs client.',
+    aliases:
+    {
+      em: 'TERM=alacritty-direct emacsclient -t'
     },
-  },
-
-  {
-    :enabled => false,
-    :name => "Go",
-    :test => "which go",
-    :description => "Powered by gophers!",
-    :paths => ["/usr/local/go/bin",
-               "~/go/bin"]
-  },
-
-  {
-    :name => "Git",
-    :test => "which git",
-    :description => "Collection of aliases for git.",
-    :aliases =>
+    exports:
     {
-      :gts => "git status -s -b --column --ahead-behind",
-      :gtc => "git checkout",
-      :gtl => "git log --graph --decorate=full",
-      :gtlt => "git log --graph --format='%h %p %d %cn - %ar %s'",
-      :gtb => "git branch -vva",
-      :gtp => "git pull --rebase"
+      VISUAL: 'emacsclient -t',
+      EDITOR: 'emacsclient -t'
     }
   },
 
   {
-    :name => "~/bin directory",
-    :description => "Add user's ~/bin directory to path.",
-    :paths => ["~/bin"],
-    :test => "[ -d \"$HOME/bin\" ]"
+    name: 'Keychain',
+    inc_os: [:linux],
+    description: 'CLI keychain script for ssh-agent/add.',
+    test: 'which keychain',
+    profile: ['eval $(keychain --systemd --eval --noask --agents ssh $HOME/.ssh/id_rsa)']
   },
 
   {
-    :name => "~./local/bin directory",
-    :description => "Add user's ~/bin directory to path.",
-    :paths => ["~/.local/bin"],
-    :test => "[ -d \"$HOME/.local/bin\" ]"
-  },
-
-  {
-    :enabled => false,
-    :name => "CMatrix",
-    :test => "which cmatrix",
-    :description => "Defaults for cmatrix.",
-    :aliases =>
+    name: 'Libvirt',
+    description: 'Makes virt-manager and virsh play nice.',
+    test: 'which virsh',
+    exports:
     {
-      :cmatrix => "cmatrix -b -u 8 -C blue"
+      LIBVIRT_DEFAULT_URI: 'qemu:///system'
     }
   },
 
   {
-    :enabled => false,
-    :name => ".NET Core",
-    :test => "which dotnet",
-    :description => ".NET Core Framework.",
-    :paths => ["~/.dotnet/tools"]
-  },
-
-  {
-    :name => "Emacs Client",
-    :test => "which emacsclient",
-    :description => "Alias for Emacs client.",
-    :aliases =>
+    name: 'CFLAGS defaults',
+    description: 'The usual defaults.' +
+                 'Note remove -pipe if you want to compile the kernel...',
+    exports:
     {
-      :em => "TERM=alacritty-direct emacsclient -t"
-    },
-    :exports =>
-    {
-      :EDITOR => "em"
+      CFLAGS: '-march=native -O2 -pipe',
+      CXXFLAGS: '$CFLAGS',
+      MAKEFLAGS: '-j$(nproc)'
     }
   },
 
   {
-    :name => "Keychain",
-    :inc_os => [:linux],
-    :description => "CLI keychain script for ssh-agent/add.",
-    :test => "which keychain",
-    :profile => ["eval $(keychain --systemd --eval --noask --agents ssh $HOME/.ssh/id_rsa)"]
+    name: 'Bash Completion',
+    test: "[[ -f '/usr/share/bash-completion/bash_completion' ]]",
+    bashrc: ['source /usr/share/bash-completion/bash_completion']
   },
 
   {
-    :name => "Libvirt",
-    :description => "Makes virt-manager and virsh play nice.",
-    :test => "which virsh",
-    :exports =>
+    name: 'Ardour',
+    test: 'which ardour6',
+    description: 'Hack to get around long-standing bug in gtk2.',
+    exports:
     {
-      :LIBVIRT_DEFAULT_URI => "qemu:///system"
+      GTK2_RC_FILES: '/nonexistent'
     }
   },
 
   {
-    :enabled => false,
-    :name => "Flutter",
-    :test => "which flutter",
-    :description => "Mobile development for great victory.",
-    :paths => ["/opt/flutter/bin/cache/dart-sdk/bin/"],
-    :aliases =>
+    name: 'Neofetch',
+    description: 'Screen info tool, required for ricing.',
+    aliases:
     {
-      :das => "dart /opt/flutter/bin/snapshots/analysis_server.dart.snapshot --lsp"
-    },
-    :exports =>
-    {
-      :DART_SDK => "/opt/flutter/bin/cache/dart-sdk/",
-      :FLUTTER_ROOT => "/opt/flutter"
+      neofetch: 'neofetch --color_blocks off --title_fqnm off'
     }
   },
 
   {
-    :enabled => false,
-    :name => "Kvantum",
-    :description => "The bloody lengths I go to, to get virt-manager looking nice.",
-    :test => "which kvantum",
-    :exports =>
+    name: 'Styling',
+    enabled: true,
+    test: 'which qt6ct',
+    exports:
     {
-      :QT_STYLE_OVERRIDE => "kvantum"
+      comment: 'Mostly using GTK3/4 apps, but Zeal is QT6.',
+      QT_QPA_PLATFORMTHEME: 'qt6ct',
+      GTK2_RC_FILES: '/usr/share/themes/Prof-Gnome-Dark/gtk-2.0/gtkrc'
     }
   },
 
   {
-    :name => "CFLAGS defaults",
-    :description => "The usual defaults." +
-                    "Note: remove -pipe if you want to compile the kernel...",
-    :exports =>
-    {
-      :CFLAGS => "-march=native -O2 -pipe",
-      :CXXFLAGS => "$CFLAGS",
-      :MAKEFLAGS => "-j$(nproc)"
+    name: 'Ruby',
+    comments: 'https://felipec.wordpress.com/2022/08/25/fixing-ruby-gems-installation/',
+    test: 'which ruby',
+    paths: [`ruby -e "print Gem.user_dir"`+'/bin'],
+    exports: {
+      GEM_HOME: `ruby -e "print Gem.user_dir"`
     }
   },
 
   {
-    :enabled => false,
-    :name => "Sakura colours",
-    :description => "Allows Emacs to use true-colour in terminal.",
-    :test => "which sakura",
+    name: 'wall',
+    description: 'Oh god I\'ve started ricing :-(',
+    test: 'which wal'
   },
 
   {
-    :name => "Bash Completion",
-    :test => "[[ -f '/usr/share/bash-completion/bash_completion' ]]",
-    :bashrc => ["source /usr/share/bash-completion/bash_completion"]
-  },
-
-  {
-    :name => "Ardour",
-    :test => "which ardour6",
-    :description => "Hack to get around long-standing bug in gtk2.",
-    :exports =>
-    {
-      :GTK2_RC_FILES => "/nonexistent"
-    }
-  },
-
-  {
-    :name => "Neofetch",
-    :description => "Screen info tool, required for ricing.",
-    :aliases =>
-    {
-      :neofetch => "neofetch --color_blocks off --title_fqnm off"
-    }
-  },
-
-  {
-    :name => "Styling",
-    :enabled => true,
-    :test => "which qt6ct",
-    :exports =>
-    {
-      :comment => "Mostly using GTK3/4 apps, but Zeal is QT6.",
-      :QT_QPA_PLATFORMTHEME => "qt6ct",
-      :GTK2_RC_FILES => "/usr/share/themes/gnome-professional/gtk-2.0/gtkrc"
-    }
-  },
-
-  {
-    :name => "Ruby",
-    :test => "which ruby",
-    :paths => ["~/.local/share/gem/ruby/3.0.0/bin"]
-  },
-
-    {
-    :name => "wallust",
-    :description => "Oh god I've started ricing :-(",
-    :test => "which wallust",
-    :bashrc => ["(cat ~/.cache/wallust/sequences &)"],
-    },
-
-    {
-      :name => "Starship",
-      :description => "Pretty prompt",
-      :test => "which starship",
-      :bashrc => ["if ! [[ $(env | grep TERM) =~ \"linux\" ]]; then eval $(starship init bash); fi"]
-    }
+    name: 'Starship',
+    description: 'Pretty prompt',
+    test: 'which starship',
+    bashrc: ['if ! [[ $(env | grep TERM) =~ "linux" ]]; ' \
+             'then eval $(starship init bash); fi']
+  }
 
 ]

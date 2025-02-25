@@ -1,9 +1,9 @@
 ################################################################################
-# Helper functions.
-################################################################################
+## Helper functions.
+#
 
 def bail(msg)
-  STDERR.puts(msg)
+  warn msg
   exit 1
 end
 
@@ -20,7 +20,7 @@ end
 
 ################################################################################
 ## Sanity tests
-################################################################################
+#
 
 def config_enabled?(cfg)
   enabled = cfg[:enabled].nil?  || cfg[:enabled] == true
@@ -35,7 +35,7 @@ end
 def correct_type?(cfg, entry_name, expected_type)
   return true if cfg[entry_name].nil?
 
-  ok = cfg[entry_name].class == expected_type
+  ok = cfg[entry_name].instance_of?(expected_type)
 
   warn ":#{entry_name} must be a #{expected_type} in entry '#{cfg[:name]}'" unless ok
 
@@ -44,7 +44,7 @@ end
 
 def run_test(cfg)
   result = cfg[:test].nil? ||
-           system(cfg[:test], {:err => File::NULL, :out => File::NULL})
+           system(cfg[:test], { err: File::NULL, out: File::NULL })
 
   warn "FAILED TEST: #{cfg[:name]}." unless result
 
@@ -52,8 +52,8 @@ def run_test(cfg)
 end
 
 def valid_config?(cfg)
-  valid_entry = cfg.class == Hash &&
-                cfg[:name].class == String &&
+  valid_entry = cfg.instance_of?(Hash) &&
+                cfg[:name].instance_of?(String) &&
                 !cfg[:name].chomp.empty?
 
   warn 'Config entry must be a hash containing a ":name" key.' unless valid_entry
@@ -74,7 +74,7 @@ end
 
 ################################################################################
 ## Extract/copy 'stuff' from config
-################################################################################
+#
 
 def extract_paths(cfg, key, prefix)
   result = ["# #{cfg[:name]}"]
@@ -115,13 +115,11 @@ end
 def extract_profile(cfg)
   result = ["# #{cfg[:name]}"]
   result << cfg[:profile]
-  result << "\n"
 end
 
 def extract_bashrc(cfg)
   result = ["# #{cfg[:name]}"]
   result << cfg[:bashrc]
-  result << "\n"
 end
 
 ################################################################################
@@ -146,7 +144,7 @@ def write_config(name)
 
   content = yield
 
-  home = ENV['HOME'] + '/'
+  home = "#{ENV['HOME']}/"
 
   File.open(home + name, 'w') do |file|
     file.write(content)

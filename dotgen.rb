@@ -17,11 +17,11 @@ load './config.rb'
   valid_config?(cfg)
 end
 
-if @config.length.zero?
+if @config.empty?
   bail 'Either all config is disabled/broken, or none of it applies to this OS.'
 end
 
-@config.each{ |cfg| puts "APPLYING:\t#{cfg[:name]}" }
+@config.each { |cfg| puts "APPLYING:\t#{cfg[:name]}" }
 
 ################################################################################
 ## Extract various configuration 'stuff'.
@@ -41,7 +41,6 @@ end
 @bashrc << "PS1=\"#{@prompt}\"\n"
 @bashrc << @cmds.join("\n")
 
-
 ################################################################################
 ## Doom, death and destruction - write our finished results.
 ################################################################################
@@ -54,9 +53,11 @@ if answer.downcase == 'y'
   write_config('.bash_profile') { @bash_profile }
   write_config('.aliases') { @aliases.join("\n") }
   write_config('.bashrc')  { @bashrc.join("\n") }
-  write_config('.profile') { [@paths,
-                              @manpaths,
-                              @vars,
-                              @exports,
-                              @profile].flatten.join("\n") }
+  write_config('.profile') do
+    [@paths,
+     @manpaths,
+     @vars,
+     @exports,
+     @profile].flatten.join("\n")
+  end
 end
