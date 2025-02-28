@@ -105,17 +105,6 @@ warn "Detected operating System: #{@os}"
 @prompt = '\u@\h - \W > '
 
 ################################################################################
-# Generators
-################################################################################
-
-def ruby_gem_ver
-  ver = `ruby --version | cut -d" " -f2`
-  i = ver.rindex(/\./)
-
-  ver[0..i]
-end
-
-################################################################################
 # Application configuration.
 ################################################################################
 
@@ -138,28 +127,17 @@ end
     aliases: {
       hostname: 'hostnamectl hostname',
       sd_running: 'systemctl list-unit-files --type=service --state=enabled',
-      sd_failed: 'systemctl list-units --type=service  --state=failed'
+      sd_failed: 'systemctl list-units --type=service --state=failed'
     }
   },
 
   {
     name: 'Color for basic cli apps.',
-    inc_os: %i[linux, freebsd, osx],
+    inc_os: [:linux, :freebsd, :osx],
     aliases:
     {
       ls: "ls -p -h --group-directories-first #{os_opt(@ls_color)}",
       grep: 'grep --color=auto'
-    }
-  },
-
-  {
-    name: 'ColorLs',
-    inc_os: [:openbsd],
-    description: 'Color ls output for OpenBSD.',
-    test: 'which colorls',
-    aliases:
-    {
-      ls: 'colorls -Gh'
     }
   },
 
@@ -201,15 +179,6 @@ end
   },
 
   {
-    enabled: false,
-    name: 'Go',
-    test: 'which go',
-    description: 'Powered by gophers!',
-    paths: ['/usr/local/go/bin',
-            '~/go/bin']
-  },
-
-  {
     name: 'Git',
     test: 'which git',
     description: 'Collection of aliases for git.',
@@ -239,18 +208,6 @@ end
   },
 
   {
-    enabled: false,
-    name: 'CMatrix',
-    test: 'which cmatrix',
-    description: 'Defaults for cmatrix.',
-    aliases:
-    {
-      cmatrix: 'cmatrix -b -u 8 -C blue'
-    }
-  },
-
-  {
-    enabled: false,
     name: '.NET Core',
     test: 'which dotnet',
     description: '.NET Core Framework.',
@@ -315,27 +272,6 @@ end
     exports:
     {
       GTK2_RC_FILES: '/nonexistent'
-    }
-  },
-
-  {
-    name: 'Neofetch',
-    description: 'Screen info tool, required for ricing.',
-    aliases:
-    {
-      neofetch: 'neofetch --color_blocks off --title_fqnm off'
-    }
-  },
-
-  {
-    name: 'Styling',
-    enabled: true,
-    test: 'which qt6ct',
-    exports:
-    {
-      comment: 'Mostly using GTK3/4 apps, but Zeal is QT6.',
-      QT_QPA_PLATFORMTHEME: 'qt6ct',
-      GTK2_RC_FILES: '/usr/share/themes/Prof-Gnome-Dark/gtk-2.0/gtkrc'
     }
   },
 
