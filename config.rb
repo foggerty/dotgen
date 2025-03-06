@@ -44,8 +44,8 @@
 load 'dotgenlib.rb'
 
 ################################################################################
-# Header/file constants.
-################################################################################
+## Header/file constants.
+#
 
 @bash_profile = <<~BASH_PROFILE
   source ~/.profile
@@ -70,8 +70,8 @@ ALIASES
 SANITY
 
 ################################################################################
-# Platform and system capabilities.
-################################################################################
+## Platform and system capabilities.
+#
 
 if RUBY_PLATFORM.include?('linux')
   @os = :linux
@@ -88,8 +88,8 @@ end
 warn "Detected operating System: #{@os}"
 
 ################################################################################
-# OS specific options.
-################################################################################
+## OS specific options.
+#
 
 @ls_color = {
   osx: '-G',
@@ -99,14 +99,14 @@ warn "Detected operating System: #{@os}"
 }
 
 ################################################################################
-# Prompt.
-################################################################################
+## Prompt.
+#
 
 @prompt = '\u@\h - \W > '
 
 ################################################################################
-# Application configuration.
-################################################################################
+## Application configuration.
+#
 
 @config = [
   {
@@ -124,6 +124,7 @@ warn "Detected operating System: #{@os}"
   {
     name: 'SystemD aliases',
     description: 'Aliases to make SystemD easier to use.',
+    test: 'which systemctl',
     aliases: {
       hostname: 'hostnamectl hostname',
       sd_running: 'systemctl list-unit-files --type=service --state=enabled',
@@ -150,35 +151,6 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    name: 'Most',
-    enabled: true,
-    description: 'Make man pages prettier.',
-    inc_os: [:linux],
-    test: 'which most',
-    exports:
-    {
-      MANPAGER: 'most'
-    }
-  },
-
-  {
-    name: 'MOAR',
-    enabled: true,
-    test: 'which moar',
-    description: '"less/more", but with syntax-highlighting.',
-    exports:
-    {
-      PAGER: '/usr/bin/moar',
-      MOAR: '--colors 16 --no-linenumbers'
-    },
-    aliases:
-    {
-      less: 'moar',
-      more: 'moar'
-    }
-  },
-
-  {
     name: 'Git',
     test: 'which git',
     description: 'Collection of aliases for git.',
@@ -197,14 +169,14 @@ warn "Detected operating System: #{@os}"
     name: '~/bin directory',
     description: 'Add user\'s ~/bin directory to path.',
     paths: ['~/bin'],
-    test: "[ -d \"$HOME/bin\" ]"
+    test: '[ -d "$HOME/bin" ]'
   },
 
   {
     name: './local/bin directory',
     description: 'Add user\'s ~/.local/bin directory to path.',
     paths: ['~/.local/bin'],
-    test: "[ -d \"$HOME/.local/bin\" ]"
+    test: '[ -d "$HOME/.local/bin" ]'
   },
 
   {
@@ -249,8 +221,8 @@ warn "Detected operating System: #{@os}"
 
   {
     name: 'CFLAGS defaults',
-    description: 'The usual defaults.' +
-                 'Note remove -pipe if you want to compile the kernel...',
+    description: 'The usual defaults.\
+                  Note: remove -pipe if you want to compile the kernel!',
     exports:
     {
       CFLAGS: '-march=native -O2 -pipe',
@@ -279,7 +251,7 @@ warn "Detected operating System: #{@os}"
     name: 'Ruby',
     comments: 'https://felipec.wordpress.com/2022/08/25/fixing-ruby-gems-installation/',
     test: 'which ruby',
-    paths: [`ruby -e "print Gem.user_dir"`+'/bin'],
+    paths: ["#{`ruby -e 'print Gem.user_dir'`}/bin"],
     exports: {
       GEM_HOME: `ruby -e "print Gem.user_dir"`
     }
@@ -297,6 +269,48 @@ warn "Detected operating System: #{@os}"
     test: 'which starship',
     bashrc: ['if ! [[ $(env | grep TERM) =~ "linux" ]]; ' \
              'then eval $(starship init bash); fi']
+  },
+
+  {
+    name: 'Bat / Manpager',
+    test: 'which batman',
+    aliases:
+    {
+      man: 'batman',
+      less: 'bat',
+      grep: 'batgrep'
+    }
+  },
+
+  {
+    name: 'FZF',
+    test: 'which fzf',
+    bashrc: ['eval "(fzf --bash)" > /dev/null'],
+    exports:
+    {
+      FZF_DEFAULT_OPTS_FILE: '$HOME/.config/fzf/config'
+    }
+  },
+
+  {
+    name: 'FZF and BAT ingetration.',
+    test: 'which bat && which fzf',
+    aliases:
+    {
+      fzf: 'fzf --preview \"bat --line-range=:500 {}\"'
+    }
+  },
+
+  {
+    name: 'Ripgrep',
+    aliases:
+    {
+      grep: 'rg'
+    },
+    exports:
+    {
+      RIPGREP_CONFIG_PATH: '$HOME/.config/ripgrep/config'
+    }
   }
 
 ]

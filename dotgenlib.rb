@@ -124,7 +124,7 @@ end
 
 ################################################################################
 ## Output 'stuff'
-################################################################################
+#
 
 # Generates bash code for all config that has a given key, by using
 # the supplied transform function.

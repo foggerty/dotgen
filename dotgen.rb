@@ -11,7 +11,7 @@ load './config.rb'
 
 ################################################################################
 ## Setup and sanity check.
-################################################################################
+#
 
 @config.filter! do |cfg|
   valid_config?(cfg)
@@ -25,7 +25,7 @@ end
 
 ################################################################################
 ## Extract various configuration 'stuff'.
-################################################################################
+#
 
 @aliases      = generate(:aliases)      { |cfg| extract_aliases(cfg) }
 @paths        = generate(:paths)        { |cfg| extract_paths(cfg, :paths, 'PATH') }
@@ -43,7 +43,7 @@ end
 
 ################################################################################
 ## Doom, death and destruction - write our finished results.
-################################################################################
+#
 
 puts "Enter 'y' to agree to 'stuff' and overwrite your Bash config."
 
