@@ -222,7 +222,7 @@ warn "Detected operating System: #{@os}"
   {
     name: 'CFLAGS defaults',
     description: 'The usual defaults.\
-                  Note: remove -pipe if you want to compile the kernel!',
+      Note: remove -pipe if you want to compile the kernel!',
     exports:
     {
       CFLAGS: '-march=native -O2 -pipe',
@@ -285,7 +285,7 @@ warn "Detected operating System: #{@os}"
   {
     name: 'FZF',
     test: 'which fzf',
-    bashrc: ['eval "(fzf --bash)" > /dev/null'],
+    bashrc: ['eval "$(fzf --bash)"'],
     exports:
     {
       FZF_DEFAULT_OPTS_FILE: '$HOME/.config/fzf/config'
