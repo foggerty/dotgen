@@ -260,7 +260,8 @@ warn "Detected operating System: #{@os}"
   {
     name: 'wall',
     description: 'Oh god I\'ve started ricing :-(',
-    test: 'which wal'
+    test: 'which wal',
+    bashrc: ['cat ~/.cache/wal/sequences']
   },
 
   {
