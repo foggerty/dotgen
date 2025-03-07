@@ -30,6 +30,7 @@ end
 @aliases      = generate(:aliases)      { |cfg| extract_aliases(cfg) }
 @paths        = generate(:paths)        { |cfg| extract_paths(cfg, :paths, 'PATH') }
 @manpaths     = generate(:manpaths)     { |cfg| extract_paths(cfg, :manpaths, 'MANPATH') }
+@xdgpaths     = generate(:xdgpaths)     { |cfg| extract_paths(cfg, :xdgpaths, 'XDG_DATA_DIR') }
 @vars         = generate(:vars)         { |cfg| extract_vars(cfg) }
 @cmds         = generate(:bashrc)       { |cfg| extract_bashrc(cfg) }
 @exports      = generate(:exports)      { |cfg| extract_exports(cfg) }
@@ -56,6 +57,7 @@ if answer.downcase == 'y'
   write_config('.profile') do
     [@paths,
      @manpaths,
+     @xdgpaths,
      @vars,
      @exports,
      @profile].flatten.join("\n")

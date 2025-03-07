@@ -312,6 +312,13 @@ warn "Detected operating System: #{@os}"
     {
       RIPGREP_CONFIG_PATH: '$HOME/.config/ripgrep/config'
     }
+  },
+
+  {
+    name: 'Flatpak',
+    test: 'which flatpak',
+    xdgpaths: ['$HOME/.local/share/flatpak/exports/share',
+               '/var/lib/flatpak/exports/share']
   }
 
 ]
