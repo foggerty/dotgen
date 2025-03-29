@@ -278,8 +278,7 @@ warn "Detected operating System: #{@os}"
     aliases:
     {
       man: 'batman',
-      less: 'bat',
-      grep: 'batgrep'
+      less: 'bat'
     }
   },
 
@@ -289,7 +288,8 @@ warn "Detected operating System: #{@os}"
     bashrc: ['eval "$(fzf --bash)"'],
     exports:
     {
-      FZF_DEFAULT_OPTS_FILE: '$HOME/.config/fzf/config'
+      FZF_DEFAULT_OPTS_FILE: '$HOME/.config/fzf/config',
+      FZF_CTRL_T_COMMAND: '""'
     }
   },
 
@@ -304,10 +304,6 @@ warn "Detected operating System: #{@os}"
 
   {
     name: 'Ripgrep',
-    aliases:
-    {
-      grep: 'rg'
-    },
     exports:
     {
       RIPGREP_CONFIG_PATH: '$HOME/.config/ripgrep/config'
@@ -319,6 +315,12 @@ warn "Detected operating System: #{@os}"
     test: 'which flatpak',
     xdgpaths: ['$HOME/.local/share/flatpak/exports/share',
                '/var/lib/flatpak/exports/share']
+  },
+
+  {
+    name: 'Golang',
+    test: '[ -d "$HOME/go/bin" ]',
+    paths: ['$HOME/go/bin']
   }
 
 ]

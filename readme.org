@@ -23,6 +23,7 @@ bloody remember.
   applications.  This is what Bash reads with a login shell.
 - .bashrc :: Put things that need to be set for each (non-login) shell here.
 - .aliases :: collection of Bash aliases, referenced by .bashrc.
+- .bash_profile :: Source =.profile= and =.bashrc= (in that order) and /nothing/ else.
 
 * Todo
 - [X] Sanity check.
