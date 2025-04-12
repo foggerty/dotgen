@@ -59,16 +59,16 @@ def valid_config?(cfg)
   warn 'Config entry must be a hash containing a ":name" key.' unless valid_entry
 
   valid_entry &&
-    config_enabled?(cfg) &&
-    correct_type?(cfg, :aliases, Hash) &&
-    correct_type?(cfg, :paths, Array) &&
-    correct_type?(cfg, :manpaths, Array) &&
-    correct_type?(cfg, :test, String) &&
-    correct_type?(cfg, :vars, Hash) &&
-    correct_type?(cfg, :bashrc, Array) &&
-    correct_type?(cfg, :profile, Array) &&
-    correct_type?(cfg, :inc_os, Array) &&
-    correct_type?(cfg, :exc_os, Array) &&
+  config_enabled?(cfg) &&
+  correct_type?(cfg, :aliases, Hash) &&
+  correct_type?(cfg, :paths, Array) &&
+  correct_type?(cfg, :manpaths, Array) &&
+  correct_type?(cfg, :test, String) &&
+  correct_type?(cfg, :vars, Hash) &&
+  correct_type?(cfg, :bashrc, Array) &&
+  correct_type?(cfg, :profile, Array) &&
+  correct_type?(cfg, :inc_os, Array) &&
+  correct_type?(cfg, :exc_os, Array) &&
     run_test(cfg)
 end
 
@@ -106,6 +106,11 @@ end
 
 def extract_exports(cfg)
   extract_map(cfg, :exports, 'export')
+end
+
+def extract_functions(cfg)
+  result = ["# #{cfg[:name]}"]
+  result << cfg[:functions]
 end
 
 def extract_vars(cfg)

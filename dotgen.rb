@@ -35,9 +35,11 @@ end
 @cmds         = generate(:bashrc)       { |cfg| extract_bashrc(cfg) }
 @exports      = generate(:exports)      { |cfg| extract_exports(cfg) }
 @profile      = generate(:profile)      { |cfg| extract_profile(cfg) }
+@functions    = generate(:functions)    { |cfg| extract_functions(cfg) }
 
 @bashrc << @bash_sanity
 @bashrc << @bashrc_load_aliases
+@bashrc << @bashrc_load_functions
 @bashrc << '# Prompt'
 @bashrc << "PS1=\"#{@prompt}\"\n"
 @bashrc << @cmds.join("\n")
@@ -53,6 +55,7 @@ answer = gets.chomp
 if answer.downcase == 'y'
   write_config('.bash_profile') { @bash_profile }
   write_config('.aliases') { @aliases.join("\n") }
+  write_config('.functions') { @functions.join("\n") }
   write_config('.bashrc')  { @bashrc.join("\n") }
   write_config('.profile') do
     [@paths,

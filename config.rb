@@ -59,7 +59,13 @@ BASH_PROFILE
   fi
 ALIASES
 
-# Setup bash options
+@bashrc_load_functions = <<~FUNCTIONS
+  # Functions
+  if [ -f ~/.functions ]; then
+    source ~/.functions
+  fi
+FUNCTIONS
+
 @bash_sanity = <<~SANITY
   # Bash configuration
   HISTCONTROL=ignoreboth
@@ -321,6 +327,15 @@ warn "Detected operating System: #{@os}"
     name: 'Golang',
     test: '[ -d "$HOME/go/bin" ]',
     paths: ['$HOME/go/bin']
-  }
+  },
 
+  {
+    name: 'Pactree graph view',
+    test: 'which pactree && which xdot',
+    functions: [
+      "pm-tree(){
+        xdot <(pactree --graph \"$1\")
+        }"
+    ]
+  }
 ]
