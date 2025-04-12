@@ -333,8 +333,11 @@ warn "Detected operating System: #{@os}"
     name: 'Pactree graph view',
     test: 'which pactree && which xdot',
     functions: [
-      "pm-tree(){
-        xdot <(pactree --graph \"$1\")
+      "pm-uses(){
+        xdot <(pactree --graph -su \"$1\")
+          }",
+      "pm-depends(){
+        xdot <(pactree --graph -sru \"$1\")
         }"
     ]
   }
