@@ -143,7 +143,7 @@ warn "Detected operating System: #{@os}"
     inc_os: [:linux, :freebsd, :osx],
     aliases:
     {
-      ls: "ls -p -h --group-directories-first #{os_opt(@ls_color)}",
+      ls: "ls -p -h -v --group-directories-first #{os_opt(@ls_color)}",
       grep: 'grep --color=auto'
     }
   },
@@ -334,10 +334,10 @@ warn "Detected operating System: #{@os}"
     test: 'which pactree && which xdot',
     functions: [
       "pm-uses(){
-        xdot <(pactree --graph -su \"$1\")
+        xdot <(pactree --graph -u \"$1\")
           }",
       "pm-depends(){
-        xdot <(pactree --graph -sru \"$1\")
+        xdot <(pactree --graph -ru \"$1\")
         }"
     ]
   }
