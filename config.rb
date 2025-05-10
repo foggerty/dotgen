@@ -340,5 +340,13 @@ warn "Detected operating System: #{@os}"
         xdot <(pactree --graph -ru \"$1\")
         }"
     ]
+  },
+
+  {
+    name: 'Qman',
+    test: 'which qman',
+    aliases: {
+      man: 'qman'
+    }
   }
 ]
