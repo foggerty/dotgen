@@ -133,7 +133,8 @@ warn "Detected operating System: #{@os}"
     test: 'which systemctl',
     aliases: {
       hostname: 'hostnamectl hostname',
-      sd_running: 'systemctl list-unit-files --type=service --state=enabled',
+      sd_enabled: 'systemctl list-unit-files --type=service --state=enabled',
+      sd_running: 'systemctl list-units --type=service --state=running',
       sd_failed: 'systemctl list-units --type=service --state=failed'
     }
   },
