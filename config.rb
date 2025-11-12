@@ -199,7 +199,7 @@ warn "Detected operating System: #{@os}"
     description: 'Alias for Emacs client.',
     aliases:
     {
-      em: 'TERM=alacritty-direct emacsclient -t'
+      em: 'emacsclient -t'
     },
     exports:
     {
@@ -210,10 +210,12 @@ warn "Detected operating System: #{@os}"
 
   {
     name: 'Keychain',
+    enabled: false,
     inc_os: [:linux],
     description: 'CLI keychain script for ssh-agent/add.',
     test: 'which keychain',
-    profile: ['eval $(keychain --systemd --eval --noask --agents ssh $HOME/.ssh/id_rsa)']
+    profile: ['eval $(ssh-agent -s)'],
+    bashrc: ['eval "$(keychain -q -Q --eval id_rsa)"']
   },
 
   {
