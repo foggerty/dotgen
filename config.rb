@@ -268,6 +268,7 @@ warn "Detected operating System: #{@os}"
 
   {
     name: 'wall',
+    enabled: false,
     description: 'Oh god I\'ve started ricing :-(',
     test: 'which wal',
     bashrc: ['cat ~/.cache/wal/sequences']
@@ -350,6 +351,26 @@ warn "Detected operating System: #{@os}"
     test: 'which qman',
     aliases: {
       man: 'qman'
+    }
+  },
+
+  {
+    name: 'MyLinux4Werk',
+    paths: [ '/usr/lib/ccache/bin:$PATH' ],
+    aliases:
+    {
+      ml4w: 'qs ipc call welcome toggle',
+      ml4wsettings: 'qs -p ~/.local/share/ml4w-dotfiles-settings/quickshell ipc call settings toggle',
+      ml4wcalendar: 'qs ipc call calendar toggle',
+      ml4wsidebar: 'qs ipc call sidebar toggle'
+    }
+  },
+
+  {
+    name: 'Pacdiff',
+    test: 'which pacdiff',
+    exports: {
+      DIFFPROG: 'kdiff3'
     }
   }
 ]
