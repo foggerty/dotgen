@@ -79,17 +79,14 @@ SANITY
 ## Platform and system capabilities.
 #
 
-if RUBY_PLATFORM.include?('linux')
-  @os = :linux
-elsif RUBY_PLATFORM.include?('openbsd')
-  @os = :openbsd
-elsif RUBY_PLATFORM.include?('darwin')
-  @os = :osx
-elsif RUBY_PLATFORM.include?('freebsd')
-  @os = :freebsd
-else
-  bail('Cannot determine operating system.')
-end
+@os = case
+      when RUBY_PLATFORM.include?('linux') then :linux
+      when RUBY_PLATFORM.include?('openbsd') then :openbsd
+      when RUBY_PLATFORM.include?('darwin') then :osx
+      when RUBY_PLATFORM.include?('freebsd') then @os = :freebsd
+      else
+        bail('Cannot determine operating system.')
+      end
 
 warn "Detected operating System: #{@os}"
 
@@ -355,22 +352,10 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    name: 'MyLinux4Werk',
-    paths: [ '/usr/lib/ccache/bin:$PATH' ],
-    aliases:
-    {
-      ml4w: 'qs ipc call welcome toggle',
-      ml4wsettings: 'qs -p ~/.local/share/ml4w-dotfiles-settings/quickshell ipc call settings toggle',
-      ml4wcalendar: 'qs ipc call calendar toggle',
-      ml4wsidebar: 'qs ipc call sidebar toggle'
-    }
-  },
-
-  {
     name: 'Pacdiff',
     test: 'which pacdiff',
     exports: {
-      DIFFPROG: 'kdiff3'
+      DIFFPROG: 'meld'
     }
   }
 ]
