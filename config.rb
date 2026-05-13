@@ -281,10 +281,9 @@ warn "Detected operating System: #{@os}"
 
   {
     name: 'Bat / Manpager',
-    test: 'which batman',
+    test: 'which bat',
     aliases:
     {
-      man: 'batman',
       less: 'bat'
     }
   },
