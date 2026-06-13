@@ -196,12 +196,12 @@ warn "Detected operating System: #{@os}"
     description: 'Alias for Emacs client.',
     aliases:
     {
-      em: 'emacsclient -t'
+      em: 'emacsclient -t || emacs -q -nw'
     },
     exports:
     {
-      VISUAL: 'emacsclient -t',
-      EDITOR: 'emacsclient -t'
+      VISUAL: 'emacsclient -t || emacs -q -nw',
+      EDITOR: 'emacsclient -t || emacs -q -nw'
     }
   },
 
@@ -231,7 +231,7 @@ warn "Detected operating System: #{@os}"
       Note: remove -pipe if you want to compile the kernel!',
     exports:
     {
-      CFLAGS: '-march=native -O2 -pipe',
+      CFLAGS: '-march=native -mtune=native -O2 -pipe',
       CXXFLAGS: '$CFLAGS',
       MAKEFLAGS: '-j$(nproc)'
     }
@@ -351,10 +351,19 @@ warn "Detected operating System: #{@os}"
   },
 
   {
-    name: 'Pacdiff',
-    test: 'which pacdiff',
+    name: 'QT Styling',
+    test: 'which qt6ct',
     exports: {
-      DIFFPROG: 'meld'
+      QT_QPA_PLATFORMTHEME: 'gtk3'
+    }
+  },
+
+  {
+    name: 'Disable all1 for GTK',
+    description: 'I usually mask a11y.bus, so tell GTK to stop looking for it.',
+    exports: {
+      GTK_A11Y: 'none'
     }
   }
+
 ]
