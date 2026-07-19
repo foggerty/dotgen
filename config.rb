@@ -364,6 +364,15 @@ warn "Detected operating System: #{@os}"
     exports: {
       GTK_A11Y: 'none'
     }
+  },
+
+  {
+    name: 'Odin language.',
+    description: 'Environment setting for Odin.',
+    exports: {
+      ODIN_ROOT: '$HOME/dev/odin/Odin',
+      OLS_BUILTIN_FOLDER: '$HOME/dev/odin/ols/builtin'
+    }
   }
 
 ]
