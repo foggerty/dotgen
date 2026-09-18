@@ -196,12 +196,12 @@ warn "Detected operating System: #{@os}"
     description: 'Alias for Emacs client.',
     aliases:
     {
-      em: 'emacsclient -t || emacs -q -nw'
+      em: 'emacsclient -t'
     },
     exports:
     {
-      VISUAL: 'emacsclient -t || emacs -q -nw',
-      EDITOR: 'emacsclient -t || emacs -q -nw'
+      VISUAL: 'emacsclient -t',
+      EDITOR: 'emacsclient -t'
     }
   },
 
@@ -370,7 +370,7 @@ warn "Detected operating System: #{@os}"
     name: 'Odin language.',
     description: 'Environment setting for Odin.',
     exports: {
-      ODIN_ROOT: '$HOME/dev/odin/Odin',
+      ODIN_ROOT: '$HOME/dev/odin/odin',
       OLS_BUILTIN_FOLDER: '$HOME/dev/odin/ols/builtin'
     }
   }
